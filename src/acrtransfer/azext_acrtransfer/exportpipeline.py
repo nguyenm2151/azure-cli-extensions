@@ -5,19 +5,21 @@
 # pylint: disable=line-too-long
 
 from azure.cli.core.azclierror import ResourceNotFoundError
-from .vendored_sdks.containerregistry.v2019_12_01_preview.models._models_py3 import ExportPipeline, ExportPipelineTargetProperties
-from .vendored_sdks.containerregistry.v2019_12_01_preview.models._container_registry_management_client_enums import PipelineSourceType
+from .vendored_sdks.containerregistry.v2025_06_01_preview.models._models_py3 import ExportPipeline, ExportPipelineTargetProperties
+from .vendored_sdks.containerregistry.v2025_06_01_preview.models._container_registry_management_client_enums import PipelineSourceType
 from .utility_functions import create_identity_properties
 
 
-def create_exportpipeline(client, resource_group_name, registry_name, export_pipeline_name, keyvault_secret_uri, storage_account_container_uri, options=None, user_assigned_identity_resource_id=None):
+def create_exportpipeline(client, resource_group_name, registry_name, export_pipeline_name, storage_account_container_uri, storage_access_mode, keyvault_secret_uri=None, options=None, user_assigned_identity_resource_id=None):
     '''Create an export pipeline.'''
 
-    keyvault_secret_uri = keyvault_secret_uri.lower()
     storage_account_container_uri = storage_account_container_uri.lower()
+    if keyvault_secret_uri:
+        keyvault_secret_uri = keyvault_secret_uri.lower()
 
     export_pipeline_target_type = PipelineSourceType.AZURE_STORAGE_BLOB_CONTAINER
-    export_pipeline_target_properties = ExportPipelineTargetProperties(key_vault_uri=keyvault_secret_uri,
+    export_pipeline_target_properties = ExportPipelineTargetProperties(storage_access_mode=storage_access_mode,
+                                                                       key_vault_uri=keyvault_secret_uri,
                                                                        uri=storage_account_container_uri,
                                                                        type=export_pipeline_target_type)
 

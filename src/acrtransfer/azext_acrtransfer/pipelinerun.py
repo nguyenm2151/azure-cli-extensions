@@ -7,7 +7,7 @@
 import time
 from knack.log import get_logger
 from azure.cli.core.azclierror import ResourceNotFoundError, RequiredArgumentMissingError, ClientRequestError, AzureConnectionError, AzureResponseError, AzureInternalError
-from .vendored_sdks.containerregistry.v2019_12_01_preview.models._models_py3 import PipelineRun, PipelineRunRequest, PipelineRunSourceProperties, PipelineRunTargetProperties
+from .vendored_sdks.containerregistry.v2025_06_01_preview.models._models_py3 import PipelineRun, PipelineRunRequest, PipelineRunSourceProperties, PipelineRunTargetProperties
 
 logger = get_logger(__name__)
 

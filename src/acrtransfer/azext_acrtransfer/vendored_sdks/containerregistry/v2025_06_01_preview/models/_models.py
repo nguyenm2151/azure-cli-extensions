@@ -6,13 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import datetime
-from typing import Dict, List, Optional, Union
-
 from azure.core.exceptions import HttpResponseError
 import msrest.serialization
-
-from ._container_registry_management_client_enums import *
 
 
 class ActiveDirectoryObject(msrest.serialization.Model):
@@ -33,14 +28,11 @@ class ActiveDirectoryObject(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        object_id: Optional[str] = None,
-        tenant_id: Optional[str] = None,
         **kwargs
     ):
         super(ActiveDirectoryObject, self).__init__(**kwargs)
-        self.object_id = object_id
-        self.tenant_id = tenant_id
+        self.object_id = kwargs.get('object_id', None)
+        self.tenant_id = kwargs.get('tenant_id', None)
 
 
 class Actor(msrest.serialization.Model):
@@ -57,12 +49,10 @@ class Actor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Optional[str] = None,
         **kwargs
     ):
         super(Actor, self).__init__(**kwargs)
-        self.name = name
+        self.name = kwargs.get('name', None)
 
 
 class Resource(msrest.serialization.Model):
@@ -102,17 +92,14 @@ class Resource(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
         **kwargs
     ):
         super(Resource, self).__init__(**kwargs)
         self.id = None
         self.name = None
         self.type = None
-        self.location = location
-        self.tags = tags
+        self.location = kwargs['location']
+        self.tags = kwargs.get('tags', None)
 
 
 class AgentPool(Resource):
@@ -172,20 +159,13 @@ The agentpool will have all information to create an agent pool.
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        count: Optional[int] = None,
-        tier: Optional[str] = None,
-        os: Optional[Union[str, "OS"]] = None,
-        virtual_network_subnet_resource_id: Optional[str] = None,
         **kwargs
     ):
-        super(AgentPool, self).__init__(location=location, tags=tags, **kwargs)
-        self.count = count
-        self.tier = tier
-        self.os = os
-        self.virtual_network_subnet_resource_id = virtual_network_subnet_resource_id
+        super(AgentPool, self).__init__(**kwargs)
+        self.count = kwargs.get('count', None)
+        self.tier = kwargs.get('tier', None)
+        self.os = kwargs.get('os', None)
+        self.virtual_network_subnet_resource_id = kwargs.get('virtual_network_subnet_resource_id', None)
         self.provisioning_state = None
 
 
@@ -205,14 +185,11 @@ class AgentPoolListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["AgentPool"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(AgentPoolListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class AgentPoolQueueStatus(msrest.serialization.Model):
@@ -228,12 +205,10 @@ class AgentPoolQueueStatus(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        count: Optional[int] = None,
         **kwargs
     ):
         super(AgentPoolQueueStatus, self).__init__(**kwargs)
-        self.count = count
+        self.count = kwargs.get('count', None)
 
 
 class AgentPoolUpdateParameters(msrest.serialization.Model):
@@ -252,14 +227,11 @@ class AgentPoolUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        count: Optional[int] = None,
         **kwargs
     ):
         super(AgentPoolUpdateParameters, self).__init__(**kwargs)
-        self.tags = tags
-        self.count = count
+        self.tags = kwargs.get('tags', None)
+        self.count = kwargs.get('count', None)
 
 
 class AgentProperties(msrest.serialization.Model):
@@ -275,12 +247,10 @@ class AgentProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        cpu: Optional[int] = None,
         **kwargs
     ):
         super(AgentProperties, self).__init__(**kwargs)
-        self.cpu = cpu
+        self.cpu = kwargs.get('cpu', None)
 
 
 class Argument(msrest.serialization.Model):
@@ -310,16 +280,12 @@ class Argument(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
-        value: str,
-        is_secret: Optional[bool] = False,
         **kwargs
     ):
         super(Argument, self).__init__(**kwargs)
-        self.name = name
-        self.value = value
-        self.is_secret = is_secret
+        self.name = kwargs['name']
+        self.value = kwargs['value']
+        self.is_secret = kwargs.get('is_secret', False)
 
 
 class AuthInfo(msrest.serialization.Model):
@@ -354,20 +320,14 @@ class AuthInfo(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        token_type: Union[str, "TokenType"],
-        token: str,
-        refresh_token: Optional[str] = None,
-        scope: Optional[str] = None,
-        expires_in: Optional[int] = None,
         **kwargs
     ):
         super(AuthInfo, self).__init__(**kwargs)
-        self.token_type = token_type
-        self.token = token
-        self.refresh_token = refresh_token
-        self.scope = scope
-        self.expires_in = expires_in
+        self.token_type = kwargs['token_type']
+        self.token = kwargs['token']
+        self.refresh_token = kwargs.get('refresh_token', None)
+        self.scope = kwargs.get('scope', None)
+        self.expires_in = kwargs.get('expires_in', None)
 
 
 class AuthInfoUpdateParameters(msrest.serialization.Model):
@@ -395,20 +355,14 @@ class AuthInfoUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        token_type: Optional[Union[str, "TokenType"]] = None,
-        token: Optional[str] = None,
-        refresh_token: Optional[str] = None,
-        scope: Optional[str] = None,
-        expires_in: Optional[int] = None,
         **kwargs
     ):
         super(AuthInfoUpdateParameters, self).__init__(**kwargs)
-        self.token_type = token_type
-        self.token = token
-        self.refresh_token = refresh_token
-        self.scope = scope
-        self.expires_in = expires_in
+        self.token_type = kwargs.get('token_type', None)
+        self.token = kwargs.get('token', None)
+        self.refresh_token = kwargs.get('refresh_token', None)
+        self.scope = kwargs.get('scope', None)
+        self.expires_in = kwargs.get('expires_in', None)
 
 
 class BaseImageDependency(msrest.serialization.Model):
@@ -438,20 +392,14 @@ class BaseImageDependency(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        type: Optional[Union[str, "BaseImageDependencyType"]] = None,
-        registry: Optional[str] = None,
-        repository: Optional[str] = None,
-        tag: Optional[str] = None,
-        digest: Optional[str] = None,
         **kwargs
     ):
         super(BaseImageDependency, self).__init__(**kwargs)
-        self.type = type
-        self.registry = registry
-        self.repository = repository
-        self.tag = tag
-        self.digest = digest
+        self.type = kwargs.get('type', None)
+        self.registry = kwargs.get('registry', None)
+        self.repository = kwargs.get('repository', None)
+        self.tag = kwargs.get('tag', None)
+        self.digest = kwargs.get('digest', None)
 
 
 class BaseImageTrigger(msrest.serialization.Model):
@@ -490,20 +438,14 @@ class BaseImageTrigger(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        base_image_trigger_type: Union[str, "BaseImageTriggerType"],
-        name: str,
-        update_trigger_endpoint: Optional[str] = None,
-        update_trigger_payload_type: Optional[Union[str, "UpdateTriggerPayloadType"]] = None,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(BaseImageTrigger, self).__init__(**kwargs)
-        self.base_image_trigger_type = base_image_trigger_type
-        self.update_trigger_endpoint = update_trigger_endpoint
-        self.update_trigger_payload_type = update_trigger_payload_type
-        self.status = status
-        self.name = name
+        self.base_image_trigger_type = kwargs['base_image_trigger_type']
+        self.update_trigger_endpoint = kwargs.get('update_trigger_endpoint', None)
+        self.update_trigger_payload_type = kwargs.get('update_trigger_payload_type', None)
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class BaseImageTriggerUpdateParameters(msrest.serialization.Model):
@@ -541,20 +483,14 @@ class BaseImageTriggerUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
-        base_image_trigger_type: Optional[Union[str, "BaseImageTriggerType"]] = None,
-        update_trigger_endpoint: Optional[str] = None,
-        update_trigger_payload_type: Optional[Union[str, "UpdateTriggerPayloadType"]] = None,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(BaseImageTriggerUpdateParameters, self).__init__(**kwargs)
-        self.base_image_trigger_type = base_image_trigger_type
-        self.update_trigger_endpoint = update_trigger_endpoint
-        self.update_trigger_payload_type = update_trigger_payload_type
-        self.status = status
-        self.name = name
+        self.base_image_trigger_type = kwargs.get('base_image_trigger_type', None)
+        self.update_trigger_endpoint = kwargs.get('update_trigger_endpoint', None)
+        self.update_trigger_payload_type = kwargs.get('update_trigger_payload_type', None)
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class CallbackConfig(msrest.serialization.Model):
@@ -579,14 +515,11 @@ class CallbackConfig(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        service_uri: str,
-        custom_headers: Optional[Dict[str, str]] = None,
         **kwargs
     ):
         super(CallbackConfig, self).__init__(**kwargs)
-        self.service_uri = service_uri
-        self.custom_headers = custom_headers
+        self.service_uri = kwargs['service_uri']
+        self.custom_headers = kwargs.get('custom_headers', None)
 
 
 class Credentials(msrest.serialization.Model):
@@ -610,14 +543,11 @@ class Credentials(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_registry: Optional["SourceRegistryCredentials"] = None,
-        custom_registries: Optional[Dict[str, "CustomRegistryCredentials"]] = None,
         **kwargs
     ):
         super(Credentials, self).__init__(**kwargs)
-        self.source_registry = source_registry
-        self.custom_registries = custom_registries
+        self.source_registry = kwargs.get('source_registry', None)
+        self.custom_registries = kwargs.get('custom_registries', None)
 
 
 class CustomRegistryCredentials(msrest.serialization.Model):
@@ -646,16 +576,12 @@ class CustomRegistryCredentials(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        user_name: Optional["SecretObject"] = None,
-        password: Optional["SecretObject"] = None,
-        identity: Optional[str] = None,
         **kwargs
     ):
         super(CustomRegistryCredentials, self).__init__(**kwargs)
-        self.user_name = user_name
-        self.password = password
-        self.identity = identity
+        self.user_name = kwargs.get('user_name', None)
+        self.password = kwargs.get('password', None)
+        self.identity = kwargs.get('identity', None)
 
 
 class RunRequest(msrest.serialization.Model):
@@ -691,15 +617,12 @@ class RunRequest(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        is_archive_enabled: Optional[bool] = False,
-        agent_pool_name: Optional[str] = None,
         **kwargs
     ):
         super(RunRequest, self).__init__(**kwargs)
         self.type = None  # type: Optional[str]
-        self.is_archive_enabled = is_archive_enabled
-        self.agent_pool_name = agent_pool_name
+        self.is_archive_enabled = kwargs.get('is_archive_enabled', False)
+        self.agent_pool_name = kwargs.get('agent_pool_name', None)
 
 
 class DockerBuildRequest(RunRequest):
@@ -771,35 +694,21 @@ class DockerBuildRequest(RunRequest):
 
     def __init__(
         self,
-        *,
-        docker_file_path: str,
-        platform: "PlatformProperties",
-        is_archive_enabled: Optional[bool] = False,
-        agent_pool_name: Optional[str] = None,
-        image_names: Optional[List[str]] = None,
-        is_push_enabled: Optional[bool] = True,
-        no_cache: Optional[bool] = False,
-        target: Optional[str] = None,
-        arguments: Optional[List["Argument"]] = None,
-        timeout: Optional[int] = 3600,
-        agent_configuration: Optional["AgentProperties"] = None,
-        source_location: Optional[str] = None,
-        credentials: Optional["Credentials"] = None,
         **kwargs
     ):
-        super(DockerBuildRequest, self).__init__(is_archive_enabled=is_archive_enabled, agent_pool_name=agent_pool_name, **kwargs)
+        super(DockerBuildRequest, self).__init__(**kwargs)
         self.type = 'DockerBuildRequest'  # type: str
-        self.image_names = image_names
-        self.is_push_enabled = is_push_enabled
-        self.no_cache = no_cache
-        self.docker_file_path = docker_file_path
-        self.target = target
-        self.arguments = arguments
-        self.timeout = timeout
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.source_location = source_location
-        self.credentials = credentials
+        self.image_names = kwargs.get('image_names', None)
+        self.is_push_enabled = kwargs.get('is_push_enabled', True)
+        self.no_cache = kwargs.get('no_cache', False)
+        self.docker_file_path = kwargs['docker_file_path']
+        self.target = kwargs.get('target', None)
+        self.arguments = kwargs.get('arguments', None)
+        self.timeout = kwargs.get('timeout', 3600)
+        self.platform = kwargs['platform']
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.source_location = kwargs.get('source_location', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class TaskStepProperties(msrest.serialization.Model):
@@ -843,16 +752,13 @@ class TaskStepProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
         **kwargs
     ):
         super(TaskStepProperties, self).__init__(**kwargs)
         self.type = None  # type: Optional[str]
         self.base_image_dependencies = None
-        self.context_path = context_path
-        self.context_access_token = context_access_token
+        self.context_path = kwargs.get('context_path', None)
+        self.context_access_token = kwargs.get('context_access_token', None)
 
 
 class DockerBuildStep(TaskStepProperties):
@@ -911,25 +817,16 @@ class DockerBuildStep(TaskStepProperties):
 
     def __init__(
         self,
-        *,
-        docker_file_path: str,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        image_names: Optional[List[str]] = None,
-        is_push_enabled: Optional[bool] = True,
-        no_cache: Optional[bool] = False,
-        target: Optional[str] = None,
-        arguments: Optional[List["Argument"]] = None,
         **kwargs
     ):
-        super(DockerBuildStep, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(DockerBuildStep, self).__init__(**kwargs)
         self.type = 'Docker'  # type: str
-        self.image_names = image_names
-        self.is_push_enabled = is_push_enabled
-        self.no_cache = no_cache
-        self.docker_file_path = docker_file_path
-        self.target = target
-        self.arguments = arguments
+        self.image_names = kwargs.get('image_names', None)
+        self.is_push_enabled = kwargs.get('is_push_enabled', True)
+        self.no_cache = kwargs.get('no_cache', False)
+        self.docker_file_path = kwargs['docker_file_path']
+        self.target = kwargs.get('target', None)
+        self.arguments = kwargs.get('arguments', None)
 
 
 class TaskStepUpdateParameters(msrest.serialization.Model):
@@ -966,15 +863,12 @@ class TaskStepUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
         **kwargs
     ):
         super(TaskStepUpdateParameters, self).__init__(**kwargs)
         self.type = None  # type: Optional[str]
-        self.context_path = context_path
-        self.context_access_token = context_access_token
+        self.context_path = kwargs.get('context_path', None)
+        self.context_access_token = kwargs.get('context_access_token', None)
 
 
 class DockerBuildStepUpdateParameters(TaskStepUpdateParameters):
@@ -1025,25 +919,16 @@ class DockerBuildStepUpdateParameters(TaskStepUpdateParameters):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        image_names: Optional[List[str]] = None,
-        is_push_enabled: Optional[bool] = None,
-        no_cache: Optional[bool] = None,
-        docker_file_path: Optional[str] = None,
-        arguments: Optional[List["Argument"]] = None,
-        target: Optional[str] = None,
         **kwargs
     ):
-        super(DockerBuildStepUpdateParameters, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(DockerBuildStepUpdateParameters, self).__init__(**kwargs)
         self.type = 'Docker'  # type: str
-        self.image_names = image_names
-        self.is_push_enabled = is_push_enabled
-        self.no_cache = no_cache
-        self.docker_file_path = docker_file_path
-        self.arguments = arguments
-        self.target = target
+        self.image_names = kwargs.get('image_names', None)
+        self.is_push_enabled = kwargs.get('is_push_enabled', None)
+        self.no_cache = kwargs.get('no_cache', None)
+        self.docker_file_path = kwargs.get('docker_file_path', None)
+        self.arguments = kwargs.get('arguments', None)
+        self.target = kwargs.get('target', None)
 
 
 class EncodedTaskRunRequest(RunRequest):
@@ -1105,29 +990,18 @@ class EncodedTaskRunRequest(RunRequest):
 
     def __init__(
         self,
-        *,
-        encoded_task_content: str,
-        platform: "PlatformProperties",
-        is_archive_enabled: Optional[bool] = False,
-        agent_pool_name: Optional[str] = None,
-        encoded_values_content: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
-        timeout: Optional[int] = 3600,
-        agent_configuration: Optional["AgentProperties"] = None,
-        source_location: Optional[str] = None,
-        credentials: Optional["Credentials"] = None,
         **kwargs
     ):
-        super(EncodedTaskRunRequest, self).__init__(is_archive_enabled=is_archive_enabled, agent_pool_name=agent_pool_name, **kwargs)
+        super(EncodedTaskRunRequest, self).__init__(**kwargs)
         self.type = 'EncodedTaskRunRequest'  # type: str
-        self.encoded_task_content = encoded_task_content
-        self.encoded_values_content = encoded_values_content
-        self.values = values
-        self.timeout = timeout
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.source_location = source_location
-        self.credentials = credentials
+        self.encoded_task_content = kwargs['encoded_task_content']
+        self.encoded_values_content = kwargs.get('encoded_values_content', None)
+        self.values = kwargs.get('values', None)
+        self.timeout = kwargs.get('timeout', 3600)
+        self.platform = kwargs['platform']
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.source_location = kwargs.get('source_location', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class EncodedTaskStep(TaskStepProperties):
@@ -1175,19 +1049,13 @@ class EncodedTaskStep(TaskStepProperties):
 
     def __init__(
         self,
-        *,
-        encoded_task_content: str,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        encoded_values_content: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
         **kwargs
     ):
-        super(EncodedTaskStep, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(EncodedTaskStep, self).__init__(**kwargs)
         self.type = 'EncodedTask'  # type: str
-        self.encoded_task_content = encoded_task_content
-        self.encoded_values_content = encoded_values_content
-        self.values = values
+        self.encoded_task_content = kwargs['encoded_task_content']
+        self.encoded_values_content = kwargs.get('encoded_values_content', None)
+        self.values = kwargs.get('values', None)
 
 
 class EncodedTaskStepUpdateParameters(TaskStepUpdateParameters):
@@ -1226,19 +1094,13 @@ class EncodedTaskStepUpdateParameters(TaskStepUpdateParameters):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        encoded_task_content: Optional[str] = None,
-        encoded_values_content: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
         **kwargs
     ):
-        super(EncodedTaskStepUpdateParameters, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(EncodedTaskStepUpdateParameters, self).__init__(**kwargs)
         self.type = 'EncodedTask'  # type: str
-        self.encoded_task_content = encoded_task_content
-        self.encoded_values_content = encoded_values_content
-        self.values = values
+        self.encoded_task_content = kwargs.get('encoded_task_content', None)
+        self.encoded_values_content = kwargs.get('encoded_values_content', None)
+        self.values = kwargs.get('values', None)
 
 
 class EncryptionProperty(msrest.serialization.Model):
@@ -1259,14 +1121,11 @@ class EncryptionProperty(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        status: Optional[Union[str, "EncryptionStatus"]] = None,
-        key_vault_properties: Optional["KeyVaultProperties"] = None,
         **kwargs
     ):
         super(EncryptionProperty, self).__init__(**kwargs)
-        self.status = status
-        self.key_vault_properties = key_vault_properties
+        self.status = kwargs.get('status', None)
+        self.key_vault_properties = kwargs.get('key_vault_properties', None)
 
 
 class ErrorResponse(msrest.serialization.Model):
@@ -1282,12 +1141,10 @@ class ErrorResponse(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        error: Optional["ErrorResponseBody"] = None,
         **kwargs
     ):
         super(ErrorResponse, self).__init__(**kwargs)
-        self.error = error
+        self.error = kwargs.get('error', None)
 
 
 class ErrorResponseBody(msrest.serialization.Model):
@@ -1320,18 +1177,13 @@ class ErrorResponseBody(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        code: str,
-        message: str,
-        target: Optional[str] = None,
-        details: Optional["InnerErrorDescription"] = None,
         **kwargs
     ):
         super(ErrorResponseBody, self).__init__(**kwargs)
-        self.code = code
-        self.message = message
-        self.target = target
-        self.details = details
+        self.code = kwargs['code']
+        self.message = kwargs['message']
+        self.target = kwargs.get('target', None)
+        self.details = kwargs.get('details', None)
 
 
 class EventInfo(msrest.serialization.Model):
@@ -1347,12 +1199,10 @@ class EventInfo(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
         **kwargs
     ):
         super(EventInfo, self).__init__(**kwargs)
-        self.id = id
+        self.id = kwargs.get('id', None)
 
 
 class Event(EventInfo):
@@ -1376,15 +1226,11 @@ class Event(EventInfo):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        event_request_message: Optional["EventRequestMessage"] = None,
-        event_response_message: Optional["EventResponseMessage"] = None,
         **kwargs
     ):
-        super(Event, self).__init__(id=id, **kwargs)
-        self.event_request_message = event_request_message
-        self.event_response_message = event_response_message
+        super(Event, self).__init__(**kwargs)
+        self.event_request_message = kwargs.get('event_request_message', None)
+        self.event_response_message = kwargs.get('event_response_message', None)
 
 
 class EventContent(msrest.serialization.Model):
@@ -1420,24 +1266,16 @@ class EventContent(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        timestamp: Optional[datetime.datetime] = None,
-        action: Optional[str] = None,
-        target: Optional["Target"] = None,
-        request: Optional["Request"] = None,
-        actor: Optional["Actor"] = None,
-        source: Optional["Source"] = None,
         **kwargs
     ):
         super(EventContent, self).__init__(**kwargs)
-        self.id = id
-        self.timestamp = timestamp
-        self.action = action
-        self.target = target
-        self.request = request
-        self.actor = actor
-        self.source = source
+        self.id = kwargs.get('id', None)
+        self.timestamp = kwargs.get('timestamp', None)
+        self.action = kwargs.get('action', None)
+        self.target = kwargs.get('target', None)
+        self.request = kwargs.get('request', None)
+        self.actor = kwargs.get('actor', None)
+        self.source = kwargs.get('source', None)
 
 
 class EventListResult(msrest.serialization.Model):
@@ -1457,14 +1295,11 @@ class EventListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Event"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(EventListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class EventRequestMessage(msrest.serialization.Model):
@@ -1492,20 +1327,14 @@ class EventRequestMessage(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        content: Optional["EventContent"] = None,
-        headers: Optional[Dict[str, str]] = None,
-        method: Optional[str] = None,
-        request_uri: Optional[str] = None,
-        version: Optional[str] = None,
         **kwargs
     ):
         super(EventRequestMessage, self).__init__(**kwargs)
-        self.content = content
-        self.headers = headers
-        self.method = method
-        self.request_uri = request_uri
-        self.version = version
+        self.content = kwargs.get('content', None)
+        self.headers = kwargs.get('headers', None)
+        self.method = kwargs.get('method', None)
+        self.request_uri = kwargs.get('request_uri', None)
+        self.version = kwargs.get('version', None)
 
 
 class EventResponseMessage(msrest.serialization.Model):
@@ -1533,20 +1362,14 @@ class EventResponseMessage(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        content: Optional[str] = None,
-        headers: Optional[Dict[str, str]] = None,
-        reason_phrase: Optional[str] = None,
-        status_code: Optional[str] = None,
-        version: Optional[str] = None,
         **kwargs
     ):
         super(EventResponseMessage, self).__init__(**kwargs)
-        self.content = content
-        self.headers = headers
-        self.reason_phrase = reason_phrase
-        self.status_code = status_code
-        self.version = version
+        self.content = kwargs.get('content', None)
+        self.headers = kwargs.get('headers', None)
+        self.reason_phrase = kwargs.get('reason_phrase', None)
+        self.status_code = kwargs.get('status_code', None)
+        self.version = kwargs.get('version', None)
 
 
 class ProxyResource(msrest.serialization.Model):
@@ -1632,18 +1455,13 @@ class ExportPipeline(ProxyResource):
 
     def __init__(
         self,
-        *,
-        location: Optional[str] = None,
-        identity: Optional["IdentityProperties"] = None,
-        target: Optional["ExportPipelineTargetProperties"] = None,
-        options: Optional[List[Union[str, "PipelineOptions"]]] = None,
         **kwargs
     ):
         super(ExportPipeline, self).__init__(**kwargs)
-        self.location = location
-        self.identity = identity
-        self.target = target
-        self.options = options
+        self.location = kwargs.get('location', None)
+        self.identity = kwargs.get('identity', None)
+        self.target = kwargs.get('target', None)
+        self.options = kwargs.get('options', None)
         self.provisioning_state = None
 
 
@@ -1664,14 +1482,11 @@ class ExportPipelineListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["ExportPipeline"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(ExportPipelineListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class ExportPipelineTargetProperties(msrest.serialization.Model):
@@ -1685,38 +1500,29 @@ class ExportPipelineTargetProperties(msrest.serialization.Model):
      When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
      When 'AzureStorageBlobContainer':  "https://accountName.blob.core.windows.net/containerName".
     :type uri: str
-    :param storage_access_mode: Required. The authentication mode to be used to access the target storage (Entra MI or SAS).
-    :type storage_access_mode: str
-    :param key_vault_uri: The key vault secret uri to obtain the target storage SAS
+    :param key_vault_uri: Required. They key vault secret uri to obtain the target storage SAS
      token.
     :type key_vault_uri: str
     """
 
     _validation = {
-        'storage_access_mode': {'required': True},
+        'key_vault_uri': {'required': True},
     }
 
     _attribute_map = {
         'type': {'key': 'type', 'type': 'str'},
         'uri': {'key': 'uri', 'type': 'str'},
-        'storage_access_mode': {'key': 'storageAccessMode', 'type': 'str'},
         'key_vault_uri': {'key': 'keyVaultUri', 'type': 'str'},
     }
 
     def __init__(
         self,
-        *,
-        storage_access_mode: str,
-        type: Optional[str] = None,
-        uri: Optional[str] = None,
-        key_vault_uri: Optional[str] = None,
         **kwargs
     ):
         super(ExportPipelineTargetProperties, self).__init__(**kwargs)
-        self.type = type
-        self.uri = uri
-        self.storage_access_mode = storage_access_mode
-        self.key_vault_uri = key_vault_uri
+        self.type = kwargs.get('type', None)
+        self.uri = kwargs.get('uri', None)
+        self.key_vault_uri = kwargs['key_vault_uri']
 
 
 class FileTaskRunRequest(RunRequest):
@@ -1777,29 +1583,18 @@ class FileTaskRunRequest(RunRequest):
 
     def __init__(
         self,
-        *,
-        task_file_path: str,
-        platform: "PlatformProperties",
-        is_archive_enabled: Optional[bool] = False,
-        agent_pool_name: Optional[str] = None,
-        values_file_path: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
-        timeout: Optional[int] = 3600,
-        agent_configuration: Optional["AgentProperties"] = None,
-        source_location: Optional[str] = None,
-        credentials: Optional["Credentials"] = None,
         **kwargs
     ):
-        super(FileTaskRunRequest, self).__init__(is_archive_enabled=is_archive_enabled, agent_pool_name=agent_pool_name, **kwargs)
+        super(FileTaskRunRequest, self).__init__(**kwargs)
         self.type = 'FileTaskRunRequest'  # type: str
-        self.task_file_path = task_file_path
-        self.values_file_path = values_file_path
-        self.values = values
-        self.timeout = timeout
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.source_location = source_location
-        self.credentials = credentials
+        self.task_file_path = kwargs['task_file_path']
+        self.values_file_path = kwargs.get('values_file_path', None)
+        self.values = kwargs.get('values', None)
+        self.timeout = kwargs.get('timeout', 3600)
+        self.platform = kwargs['platform']
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.source_location = kwargs.get('source_location', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class FileTaskStep(TaskStepProperties):
@@ -1847,19 +1642,13 @@ class FileTaskStep(TaskStepProperties):
 
     def __init__(
         self,
-        *,
-        task_file_path: str,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        values_file_path: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
         **kwargs
     ):
-        super(FileTaskStep, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(FileTaskStep, self).__init__(**kwargs)
         self.type = 'FileTask'  # type: str
-        self.task_file_path = task_file_path
-        self.values_file_path = values_file_path
-        self.values = values
+        self.task_file_path = kwargs['task_file_path']
+        self.values_file_path = kwargs.get('values_file_path', None)
+        self.values = kwargs.get('values', None)
 
 
 class FileTaskStepUpdateParameters(TaskStepUpdateParameters):
@@ -1898,19 +1687,13 @@ class FileTaskStepUpdateParameters(TaskStepUpdateParameters):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        context_access_token: Optional[str] = None,
-        task_file_path: Optional[str] = None,
-        values_file_path: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
         **kwargs
     ):
-        super(FileTaskStepUpdateParameters, self).__init__(context_path=context_path, context_access_token=context_access_token, **kwargs)
+        super(FileTaskStepUpdateParameters, self).__init__(**kwargs)
         self.type = 'FileTask'  # type: str
-        self.task_file_path = task_file_path
-        self.values_file_path = values_file_path
-        self.values = values
+        self.task_file_path = kwargs.get('task_file_path', None)
+        self.values_file_path = kwargs.get('values_file_path', None)
+        self.values = kwargs.get('values', None)
 
 
 class GenerateCredentialsParameters(msrest.serialization.Model):
@@ -1934,16 +1717,12 @@ class GenerateCredentialsParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        token_id: Optional[str] = None,
-        expiry: Optional[datetime.datetime] = None,
-        name: Optional[Union[str, "TokenPasswordName"]] = None,
         **kwargs
     ):
         super(GenerateCredentialsParameters, self).__init__(**kwargs)
-        self.token_id = token_id
-        self.expiry = expiry
-        self.name = name
+        self.token_id = kwargs.get('token_id', None)
+        self.expiry = kwargs.get('expiry', None)
+        self.name = kwargs.get('name', None)
 
 
 class GenerateCredentialsResult(msrest.serialization.Model):
@@ -1962,14 +1741,11 @@ class GenerateCredentialsResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        username: Optional[str] = None,
-        passwords: Optional[List["TokenPassword"]] = None,
         **kwargs
     ):
         super(GenerateCredentialsResult, self).__init__(**kwargs)
-        self.username = username
-        self.passwords = passwords
+        self.username = kwargs.get('username', None)
+        self.passwords = kwargs.get('passwords', None)
 
 
 class IdentityProperties(msrest.serialization.Model):
@@ -2001,18 +1777,13 @@ class IdentityProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        principal_id: Optional[str] = None,
-        tenant_id: Optional[str] = None,
-        type: Optional[Union[str, "ResourceIdentityType"]] = None,
-        user_assigned_identities: Optional[Dict[str, "UserIdentityProperties"]] = None,
         **kwargs
     ):
         super(IdentityProperties, self).__init__(**kwargs)
-        self.principal_id = principal_id
-        self.tenant_id = tenant_id
-        self.type = type
-        self.user_assigned_identities = user_assigned_identities
+        self.principal_id = kwargs.get('principal_id', None)
+        self.tenant_id = kwargs.get('tenant_id', None)
+        self.type = kwargs.get('type', None)
+        self.user_assigned_identities = kwargs.get('user_assigned_identities', None)
 
 
 class ImageDescriptor(msrest.serialization.Model):
@@ -2037,18 +1808,13 @@ class ImageDescriptor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        registry: Optional[str] = None,
-        repository: Optional[str] = None,
-        tag: Optional[str] = None,
-        digest: Optional[str] = None,
         **kwargs
     ):
         super(ImageDescriptor, self).__init__(**kwargs)
-        self.registry = registry
-        self.repository = repository
-        self.tag = tag
-        self.digest = digest
+        self.registry = kwargs.get('registry', None)
+        self.repository = kwargs.get('repository', None)
+        self.tag = kwargs.get('tag', None)
+        self.digest = kwargs.get('digest', None)
 
 
 class ImageUpdateTrigger(msrest.serialization.Model):
@@ -2070,16 +1836,12 @@ class ImageUpdateTrigger(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        timestamp: Optional[datetime.datetime] = None,
-        images: Optional[List["ImageDescriptor"]] = None,
         **kwargs
     ):
         super(ImageUpdateTrigger, self).__init__(**kwargs)
-        self.id = id
-        self.timestamp = timestamp
-        self.images = images
+        self.id = kwargs.get('id', None)
+        self.timestamp = kwargs.get('timestamp', None)
+        self.images = kwargs.get('images', None)
 
 
 class ImportImageParameters(msrest.serialization.Model):
@@ -2114,18 +1876,13 @@ class ImportImageParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source: "ImportSource",
-        target_tags: Optional[List[str]] = None,
-        untagged_target_repositories: Optional[List[str]] = None,
-        mode: Optional[Union[str, "ImportMode"]] = "NoForce",
         **kwargs
     ):
         super(ImportImageParameters, self).__init__(**kwargs)
-        self.source = source
-        self.target_tags = target_tags
-        self.untagged_target_repositories = untagged_target_repositories
-        self.mode = mode
+        self.source = kwargs['source']
+        self.target_tags = kwargs.get('target_tags', None)
+        self.untagged_target_repositories = kwargs.get('untagged_target_repositories', None)
+        self.mode = kwargs.get('mode', "NoForce")
 
 
 class ImportPipeline(ProxyResource):
@@ -2180,20 +1937,14 @@ class ImportPipeline(ProxyResource):
 
     def __init__(
         self,
-        *,
-        location: Optional[str] = None,
-        identity: Optional["IdentityProperties"] = None,
-        source: Optional["ImportPipelineSourceProperties"] = None,
-        trigger: Optional["PipelineTriggerProperties"] = None,
-        options: Optional[List[Union[str, "PipelineOptions"]]] = None,
         **kwargs
     ):
         super(ImportPipeline, self).__init__(**kwargs)
-        self.location = location
-        self.identity = identity
-        self.source = source
-        self.trigger = trigger
-        self.options = options
+        self.location = kwargs.get('location', None)
+        self.identity = kwargs.get('identity', None)
+        self.source = kwargs.get('source', None)
+        self.trigger = kwargs.get('trigger', None)
+        self.options = kwargs.get('options', None)
         self.provisioning_state = None
 
 
@@ -2214,14 +1965,11 @@ class ImportPipelineListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["ImportPipeline"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(ImportPipelineListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class ImportPipelineSourceProperties(msrest.serialization.Model):
@@ -2236,39 +1984,29 @@ class ImportPipelineSourceProperties(msrest.serialization.Model):
      When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
      When 'AzureStorageBlobContainer': "https://accountName.blob.core.windows.net/containerName".
     :type uri: str
-    :param storage_access_mode: Required. The authentication mode for accessing the storage account. Possible
-     values include: "ManagedIdentity", "SasToken".
-    :type storage_access_mode: str
-    :param key_vault_uri: They key vault secret uri to obtain the source storage SAS
+    :param key_vault_uri: Required. They key vault secret uri to obtain the source storage SAS
      token.
     :type key_vault_uri: str
     """
 
     _validation = {
-        'storage_access_mode': {'required': True},
+        'key_vault_uri': {'required': True},
     }
 
     _attribute_map = {
         'type': {'key': 'type', 'type': 'str'},
         'uri': {'key': 'uri', 'type': 'str'},
-        'storage_access_mode': {'key': 'storageAccessMode', 'type': 'str'},
         'key_vault_uri': {'key': 'keyVaultUri', 'type': 'str'},
     }
 
     def __init__(
         self,
-        *,
-        storage_access_mode: str,
-        type: Optional[Union[str, "PipelineSourceType"]] = "AzureStorageBlobContainer",
-        uri: Optional[str] = None,
-        key_vault_uri: Optional[str] = None,
         **kwargs
     ):
         super(ImportPipelineSourceProperties, self).__init__(**kwargs)
-        self.type = type
-        self.uri = uri
-        self.storage_access_mode = storage_access_mode
-        self.key_vault_uri = key_vault_uri
+        self.type = kwargs.get('type', "AzureStorageBlobContainer")
+        self.uri = kwargs.get('uri', None)
+        self.key_vault_uri = kwargs['key_vault_uri']
 
 
 class ImportSource(msrest.serialization.Model):
@@ -2303,18 +2041,13 @@ class ImportSource(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_image: str,
-        resource_id: Optional[str] = None,
-        registry_uri: Optional[str] = None,
-        credentials: Optional["ImportSourceCredentials"] = None,
         **kwargs
     ):
         super(ImportSource, self).__init__(**kwargs)
-        self.resource_id = resource_id
-        self.registry_uri = registry_uri
-        self.credentials = credentials
-        self.source_image = source_image
+        self.resource_id = kwargs.get('resource_id', None)
+        self.registry_uri = kwargs.get('registry_uri', None)
+        self.credentials = kwargs.get('credentials', None)
+        self.source_image = kwargs['source_image']
 
 
 class ImportSourceCredentials(msrest.serialization.Model):
@@ -2339,14 +2072,11 @@ class ImportSourceCredentials(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        password: str,
-        username: Optional[str] = None,
         **kwargs
     ):
         super(ImportSourceCredentials, self).__init__(**kwargs)
-        self.username = username
-        self.password = password
+        self.username = kwargs.get('username', None)
+        self.password = kwargs['password']
 
 
 class InnerErrorDescription(msrest.serialization.Model):
@@ -2375,16 +2105,12 @@ class InnerErrorDescription(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        code: str,
-        message: str,
-        target: Optional[str] = None,
         **kwargs
     ):
         super(InnerErrorDescription, self).__init__(**kwargs)
-        self.code = code
-        self.message = message
-        self.target = target
+        self.code = kwargs['code']
+        self.message = kwargs['message']
+        self.target = kwargs.get('target', None)
 
 
 class IPRule(msrest.serialization.Model):
@@ -2410,14 +2136,11 @@ class IPRule(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        ip_address_or_range: str,
-        action: Optional[Union[str, "Action"]] = None,
         **kwargs
     ):
         super(IPRule, self).__init__(**kwargs)
-        self.action = action
-        self.ip_address_or_range = ip_address_or_range
+        self.action = kwargs.get('action', None)
+        self.ip_address_or_range = kwargs['ip_address_or_range']
 
 
 class KeyVaultProperties(msrest.serialization.Model):
@@ -2446,15 +2169,12 @@ class KeyVaultProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        key_identifier: Optional[str] = None,
-        identity: Optional[str] = None,
         **kwargs
     ):
         super(KeyVaultProperties, self).__init__(**kwargs)
-        self.key_identifier = key_identifier
+        self.key_identifier = kwargs.get('key_identifier', None)
         self.versioned_key_identifier = None
-        self.identity = identity
+        self.identity = kwargs.get('identity', None)
 
 
 class NetworkRuleSet(msrest.serialization.Model):
@@ -2485,16 +2205,12 @@ class NetworkRuleSet(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        default_action: Union[str, "DefaultAction"] = "Allow",
-        virtual_network_rules: Optional[List["VirtualNetworkRule"]] = None,
-        ip_rules: Optional[List["IPRule"]] = None,
         **kwargs
     ):
         super(NetworkRuleSet, self).__init__(**kwargs)
-        self.default_action = default_action
-        self.virtual_network_rules = virtual_network_rules
-        self.ip_rules = ip_rules
+        self.default_action = kwargs.get('default_action', "Allow")
+        self.virtual_network_rules = kwargs.get('virtual_network_rules', None)
+        self.ip_rules = kwargs.get('ip_rules', None)
 
 
 class OperationDefinition(msrest.serialization.Model):
@@ -2521,18 +2237,13 @@ class OperationDefinition(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        origin: Optional[str] = None,
-        name: Optional[str] = None,
-        display: Optional["OperationDisplayDefinition"] = None,
-        service_specification: Optional["OperationServiceSpecificationDefinition"] = None,
         **kwargs
     ):
         super(OperationDefinition, self).__init__(**kwargs)
-        self.origin = origin
-        self.name = name
-        self.display = display
-        self.service_specification = service_specification
+        self.origin = kwargs.get('origin', None)
+        self.name = kwargs.get('name', None)
+        self.display = kwargs.get('display', None)
+        self.service_specification = kwargs.get('service_specification', None)
 
 
 class OperationDisplayDefinition(msrest.serialization.Model):
@@ -2557,18 +2268,13 @@ class OperationDisplayDefinition(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
         **kwargs
     ):
         super(OperationDisplayDefinition, self).__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
+        self.provider = kwargs.get('provider', None)
+        self.resource = kwargs.get('resource', None)
+        self.operation = kwargs.get('operation', None)
+        self.description = kwargs.get('description', None)
 
 
 class OperationListResult(msrest.serialization.Model):
@@ -2589,14 +2295,11 @@ class OperationListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["OperationDefinition"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(OperationListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class OperationMetricSpecificationDefinition(msrest.serialization.Model):
@@ -2627,22 +2330,15 @@ class OperationMetricSpecificationDefinition(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Optional[str] = None,
-        display_name: Optional[str] = None,
-        display_description: Optional[str] = None,
-        unit: Optional[str] = None,
-        aggregation_type: Optional[str] = None,
-        internal_metric_name: Optional[str] = None,
         **kwargs
     ):
         super(OperationMetricSpecificationDefinition, self).__init__(**kwargs)
-        self.name = name
-        self.display_name = display_name
-        self.display_description = display_description
-        self.unit = unit
-        self.aggregation_type = aggregation_type
-        self.internal_metric_name = internal_metric_name
+        self.name = kwargs.get('name', None)
+        self.display_name = kwargs.get('display_name', None)
+        self.display_description = kwargs.get('display_description', None)
+        self.unit = kwargs.get('unit', None)
+        self.aggregation_type = kwargs.get('aggregation_type', None)
+        self.internal_metric_name = kwargs.get('internal_metric_name', None)
 
 
 class OperationServiceSpecificationDefinition(msrest.serialization.Model):
@@ -2659,12 +2355,10 @@ class OperationServiceSpecificationDefinition(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        metric_specifications: Optional[List["OperationMetricSpecificationDefinition"]] = None,
         **kwargs
     ):
         super(OperationServiceSpecificationDefinition, self).__init__(**kwargs)
-        self.metric_specifications = metric_specifications
+        self.metric_specifications = kwargs.get('metric_specifications', None)
 
 
 class OverrideTaskStepProperties(msrest.serialization.Model):
@@ -2697,22 +2391,15 @@ class OverrideTaskStepProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        context_path: Optional[str] = None,
-        file: Optional[str] = None,
-        arguments: Optional[List["Argument"]] = None,
-        target: Optional[str] = None,
-        values: Optional[List["SetValue"]] = None,
-        update_trigger_token: Optional[str] = None,
         **kwargs
     ):
         super(OverrideTaskStepProperties, self).__init__(**kwargs)
-        self.context_path = context_path
-        self.file = file
-        self.arguments = arguments
-        self.target = target
-        self.values = values
-        self.update_trigger_token = update_trigger_token
+        self.context_path = kwargs.get('context_path', None)
+        self.file = kwargs.get('file', None)
+        self.arguments = kwargs.get('arguments', None)
+        self.target = kwargs.get('target', None)
+        self.values = kwargs.get('values', None)
+        self.update_trigger_token = kwargs.get('update_trigger_token', None)
 
 
 class PipelineRun(ProxyResource):
@@ -2759,16 +2446,13 @@ class PipelineRun(ProxyResource):
 
     def __init__(
         self,
-        *,
-        request: Optional["PipelineRunRequest"] = None,
-        force_update_tag: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRun, self).__init__(**kwargs)
         self.provisioning_state = None
-        self.request = request
+        self.request = kwargs.get('request', None)
         self.response = None
-        self.force_update_tag = force_update_tag
+        self.force_update_tag = kwargs.get('force_update_tag', None)
 
 
 class PipelineRunListResult(msrest.serialization.Model):
@@ -2788,14 +2472,11 @@ class PipelineRunListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["PipelineRun"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRunListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class PipelineRunRequest(msrest.serialization.Model):
@@ -2828,20 +2509,14 @@ class PipelineRunRequest(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        pipeline_resource_id: Optional[str] = None,
-        artifacts: Optional[List[str]] = None,
-        source: Optional["PipelineRunSourceProperties"] = None,
-        target: Optional["PipelineRunTargetProperties"] = None,
-        catalog_digest: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRunRequest, self).__init__(**kwargs)
-        self.pipeline_resource_id = pipeline_resource_id
-        self.artifacts = artifacts
-        self.source = source
-        self.target = target
-        self.catalog_digest = catalog_digest
+        self.pipeline_resource_id = kwargs.get('pipeline_resource_id', None)
+        self.artifacts = kwargs.get('artifacts', None)
+        self.source = kwargs.get('source', None)
+        self.target = kwargs.get('target', None)
+        self.catalog_digest = kwargs.get('catalog_digest', None)
 
 
 class PipelineRunResponse(msrest.serialization.Model):
@@ -2888,30 +2563,19 @@ class PipelineRunResponse(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        status: Optional[str] = None,
-        imported_artifacts: Optional[List[str]] = None,
-        progress: Optional["ProgressProperties"] = None,
-        start_time: Optional[datetime.datetime] = None,
-        finish_time: Optional[datetime.datetime] = None,
-        source: Optional["ImportPipelineSourceProperties"] = None,
-        target: Optional["ExportPipelineTargetProperties"] = None,
-        catalog_digest: Optional[str] = None,
-        trigger: Optional["PipelineTriggerDescriptor"] = None,
-        pipeline_run_error_message: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRunResponse, self).__init__(**kwargs)
-        self.status = status
-        self.imported_artifacts = imported_artifacts
-        self.progress = progress
-        self.start_time = start_time
-        self.finish_time = finish_time
-        self.source = source
-        self.target = target
-        self.catalog_digest = catalog_digest
-        self.trigger = trigger
-        self.pipeline_run_error_message = pipeline_run_error_message
+        self.status = kwargs.get('status', None)
+        self.imported_artifacts = kwargs.get('imported_artifacts', None)
+        self.progress = kwargs.get('progress', None)
+        self.start_time = kwargs.get('start_time', None)
+        self.finish_time = kwargs.get('finish_time', None)
+        self.source = kwargs.get('source', None)
+        self.target = kwargs.get('target', None)
+        self.catalog_digest = kwargs.get('catalog_digest', None)
+        self.trigger = kwargs.get('trigger', None)
+        self.pipeline_run_error_message = kwargs.get('pipeline_run_error_message', None)
 
 
 class PipelineRunSourceProperties(msrest.serialization.Model):
@@ -2932,14 +2596,11 @@ class PipelineRunSourceProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        type: Optional[Union[str, "PipelineRunSourceType"]] = "AzureStorageBlob",
-        name: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRunSourceProperties, self).__init__(**kwargs)
-        self.type = type
-        self.name = name
+        self.type = kwargs.get('type', "AzureStorageBlob")
+        self.name = kwargs.get('name', None)
 
 
 class PipelineRunTargetProperties(msrest.serialization.Model):
@@ -2960,14 +2621,11 @@ class PipelineRunTargetProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        type: Optional[Union[str, "PipelineRunTargetType"]] = "AzureStorageBlob",
-        name: Optional[str] = None,
         **kwargs
     ):
         super(PipelineRunTargetProperties, self).__init__(**kwargs)
-        self.type = type
-        self.name = name
+        self.type = kwargs.get('type', "AzureStorageBlob")
+        self.name = kwargs.get('name', None)
 
 
 class PipelineSourceTriggerDescriptor(msrest.serialization.Model):
@@ -2983,12 +2641,10 @@ class PipelineSourceTriggerDescriptor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        timestamp: Optional[datetime.datetime] = None,
         **kwargs
     ):
         super(PipelineSourceTriggerDescriptor, self).__init__(**kwargs)
-        self.timestamp = timestamp
+        self.timestamp = kwargs.get('timestamp', None)
 
 
 class PipelineSourceTriggerProperties(msrest.serialization.Model):
@@ -3011,12 +2667,10 @@ class PipelineSourceTriggerProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        status: Union[str, "TriggerStatus"],
         **kwargs
     ):
         super(PipelineSourceTriggerProperties, self).__init__(**kwargs)
-        self.status = status
+        self.status = kwargs['status']
 
 
 class PipelineTriggerDescriptor(msrest.serialization.Model):
@@ -3033,12 +2687,10 @@ class PipelineTriggerDescriptor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_trigger: Optional["PipelineSourceTriggerDescriptor"] = None,
         **kwargs
     ):
         super(PipelineTriggerDescriptor, self).__init__(**kwargs)
-        self.source_trigger = source_trigger
+        self.source_trigger = kwargs.get('source_trigger', None)
 
 
 class PipelineTriggerProperties(msrest.serialization.Model):
@@ -3055,12 +2707,10 @@ class PipelineTriggerProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_trigger: Optional["PipelineSourceTriggerProperties"] = None,
         **kwargs
     ):
         super(PipelineTriggerProperties, self).__init__(**kwargs)
-        self.source_trigger = source_trigger
+        self.source_trigger = kwargs.get('source_trigger', None)
 
 
 class PlatformProperties(msrest.serialization.Model):
@@ -3091,16 +2741,12 @@ class PlatformProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        os: Union[str, "OS"],
-        architecture: Optional[Union[str, "Architecture"]] = None,
-        variant: Optional[Union[str, "Variant"]] = None,
         **kwargs
     ):
         super(PlatformProperties, self).__init__(**kwargs)
-        self.os = os
-        self.architecture = architecture
-        self.variant = variant
+        self.os = kwargs['os']
+        self.architecture = kwargs.get('architecture', None)
+        self.variant = kwargs.get('variant', None)
 
 
 class PlatformUpdateParameters(msrest.serialization.Model):
@@ -3125,16 +2771,12 @@ class PlatformUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        os: Optional[Union[str, "OS"]] = None,
-        architecture: Optional[Union[str, "Architecture"]] = None,
-        variant: Optional[Union[str, "Variant"]] = None,
         **kwargs
     ):
         super(PlatformUpdateParameters, self).__init__(**kwargs)
-        self.os = os
-        self.architecture = architecture
-        self.variant = variant
+        self.os = kwargs.get('os', None)
+        self.architecture = kwargs.get('architecture', None)
+        self.variant = kwargs.get('variant', None)
 
 
 class Policies(msrest.serialization.Model):
@@ -3158,16 +2800,12 @@ class Policies(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        quarantine_policy: Optional["QuarantinePolicy"] = None,
-        trust_policy: Optional["TrustPolicy"] = None,
-        retention_policy: Optional["RetentionPolicy"] = None,
         **kwargs
     ):
         super(Policies, self).__init__(**kwargs)
-        self.quarantine_policy = quarantine_policy
-        self.trust_policy = trust_policy
-        self.retention_policy = retention_policy
+        self.quarantine_policy = kwargs.get('quarantine_policy', None)
+        self.trust_policy = kwargs.get('trust_policy', None)
+        self.retention_policy = kwargs.get('retention_policy', None)
 
 
 class PrivateEndpoint(msrest.serialization.Model):
@@ -3183,12 +2821,10 @@ class PrivateEndpoint(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
         **kwargs
     ):
         super(PrivateEndpoint, self).__init__(**kwargs)
-        self.id = id
+        self.id = kwargs.get('id', None)
 
 
 class PrivateEndpointConnection(ProxyResource):
@@ -3233,14 +2869,11 @@ class PrivateEndpointConnection(ProxyResource):
 
     def __init__(
         self,
-        *,
-        private_endpoint: Optional["PrivateEndpoint"] = None,
-        private_link_service_connection_state: Optional["PrivateLinkServiceConnectionState"] = None,
         **kwargs
     ):
         super(PrivateEndpointConnection, self).__init__(**kwargs)
-        self.private_endpoint = private_endpoint
-        self.private_link_service_connection_state = private_link_service_connection_state
+        self.private_endpoint = kwargs.get('private_endpoint', None)
+        self.private_link_service_connection_state = kwargs.get('private_link_service_connection_state', None)
         self.provisioning_state = None
 
 
@@ -3263,14 +2896,11 @@ class PrivateEndpointConnectionListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["PrivateEndpointConnection"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(PrivateEndpointConnectionListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class PrivateLinkResource(msrest.serialization.Model):
@@ -3307,21 +2937,15 @@ class PrivateLinkResource(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        name: Optional[str] = None,
-        group_id: Optional[str] = None,
-        required_members: Optional[List[str]] = None,
-        required_zone_names: Optional[List[str]] = None,
         **kwargs
     ):
         super(PrivateLinkResource, self).__init__(**kwargs)
         self.type = None
-        self.id = id
-        self.name = name
-        self.group_id = group_id
-        self.required_members = required_members
-        self.required_zone_names = required_zone_names
+        self.id = kwargs.get('id', None)
+        self.name = kwargs.get('name', None)
+        self.group_id = kwargs.get('group_id', None)
+        self.required_members = kwargs.get('required_members', None)
+        self.required_zone_names = kwargs.get('required_zone_names', None)
 
 
 class PrivateLinkResourceListResult(msrest.serialization.Model):
@@ -3341,14 +2965,11 @@ class PrivateLinkResourceListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["PrivateLinkResource"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(PrivateLinkResourceListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class PrivateLinkServiceConnectionState(msrest.serialization.Model):
@@ -3374,16 +2995,12 @@ class PrivateLinkServiceConnectionState(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        status: Optional[Union[str, "ConnectionStatus"]] = None,
-        description: Optional[str] = None,
-        actions_required: Optional[Union[str, "ActionsRequired"]] = None,
         **kwargs
     ):
         super(PrivateLinkServiceConnectionState, self).__init__(**kwargs)
-        self.status = status
-        self.description = description
-        self.actions_required = actions_required
+        self.status = kwargs.get('status', None)
+        self.description = kwargs.get('description', None)
+        self.actions_required = kwargs.get('actions_required', None)
 
 
 class ProgressProperties(msrest.serialization.Model):
@@ -3399,12 +3016,10 @@ class ProgressProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        percentage: Optional[str] = None,
         **kwargs
     ):
         super(ProgressProperties, self).__init__(**kwargs)
-        self.percentage = percentage
+        self.percentage = kwargs.get('percentage', None)
 
 
 class QuarantinePolicy(msrest.serialization.Model):
@@ -3421,12 +3036,10 @@ class QuarantinePolicy(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        status: Optional[Union[str, "PolicyStatus"]] = None,
         **kwargs
     ):
         super(QuarantinePolicy, self).__init__(**kwargs)
-        self.status = status
+        self.status = kwargs.get('status', None)
 
 
 class RegenerateCredentialParameters(msrest.serialization.Model):
@@ -3449,12 +3062,10 @@ class RegenerateCredentialParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Union[str, "PasswordName"],
         **kwargs
     ):
         super(RegenerateCredentialParameters, self).__init__(**kwargs)
-        self.name = name
+        self.name = kwargs['name']
 
 
 class Registry(Resource):
@@ -3556,36 +3167,24 @@ class Registry(Resource):
 
     def __init__(
         self,
-        *,
-        location: str,
-        sku: "Sku",
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["IdentityProperties"] = None,
-        admin_user_enabled: Optional[bool] = False,
-        storage_account: Optional["StorageAccountProperties"] = None,
-        network_rule_set: Optional["NetworkRuleSet"] = None,
-        policies: Optional["Policies"] = None,
-        encryption: Optional["EncryptionProperty"] = None,
-        data_endpoint_enabled: Optional[bool] = None,
-        public_network_access: Optional[Union[str, "PublicNetworkAccess"]] = None,
         **kwargs
     ):
-        super(Registry, self).__init__(location=location, tags=tags, **kwargs)
-        self.sku = sku
-        self.identity = identity
+        super(Registry, self).__init__(**kwargs)
+        self.sku = kwargs['sku']
+        self.identity = kwargs.get('identity', None)
         self.login_server = None
         self.creation_date = None
         self.provisioning_state = None
         self.status = None
-        self.admin_user_enabled = admin_user_enabled
-        self.storage_account = storage_account
-        self.network_rule_set = network_rule_set
-        self.policies = policies
-        self.encryption = encryption
-        self.data_endpoint_enabled = data_endpoint_enabled
+        self.admin_user_enabled = kwargs.get('admin_user_enabled', False)
+        self.storage_account = kwargs.get('storage_account', None)
+        self.network_rule_set = kwargs.get('network_rule_set', None)
+        self.policies = kwargs.get('policies', None)
+        self.encryption = kwargs.get('encryption', None)
+        self.data_endpoint_enabled = kwargs.get('data_endpoint_enabled', None)
         self.data_endpoint_host_names = None
         self.private_endpoint_connections = None
-        self.public_network_access = public_network_access
+        self.public_network_access = kwargs.get('public_network_access', None)
 
 
 class RegistryListCredentialsResult(msrest.serialization.Model):
@@ -3605,14 +3204,11 @@ class RegistryListCredentialsResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        username: Optional[str] = None,
-        passwords: Optional[List["RegistryPassword"]] = None,
         **kwargs
     ):
         super(RegistryListCredentialsResult, self).__init__(**kwargs)
-        self.username = username
-        self.passwords = passwords
+        self.username = kwargs.get('username', None)
+        self.passwords = kwargs.get('passwords', None)
 
 
 class RegistryListResult(msrest.serialization.Model):
@@ -3632,14 +3228,11 @@ class RegistryListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Registry"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(RegistryListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class RegistryNameCheckRequest(msrest.serialization.Model):
@@ -3671,12 +3264,10 @@ class RegistryNameCheckRequest(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
         **kwargs
     ):
         super(RegistryNameCheckRequest, self).__init__(**kwargs)
-        self.name = name
+        self.name = kwargs['name']
 
 
 class RegistryNameStatus(msrest.serialization.Model):
@@ -3699,16 +3290,12 @@ class RegistryNameStatus(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name_available: Optional[bool] = None,
-        reason: Optional[str] = None,
-        message: Optional[str] = None,
         **kwargs
     ):
         super(RegistryNameStatus, self).__init__(**kwargs)
-        self.name_available = name_available
-        self.reason = reason
-        self.message = message
+        self.name_available = kwargs.get('name_available', None)
+        self.reason = kwargs.get('reason', None)
+        self.message = kwargs.get('message', None)
 
 
 class RegistryPassword(msrest.serialization.Model):
@@ -3727,14 +3314,11 @@ class RegistryPassword(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Optional[Union[str, "PasswordName"]] = None,
-        value: Optional[str] = None,
         **kwargs
     ):
         super(RegistryPassword, self).__init__(**kwargs)
-        self.name = name
-        self.value = value
+        self.name = kwargs.get('name', None)
+        self.value = kwargs.get('value', None)
 
 
 class RegistryUpdateParameters(msrest.serialization.Model):
@@ -3776,28 +3360,18 @@ class RegistryUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        sku: Optional["Sku"] = None,
-        identity: Optional["IdentityProperties"] = None,
-        admin_user_enabled: Optional[bool] = None,
-        network_rule_set: Optional["NetworkRuleSet"] = None,
-        policies: Optional["Policies"] = None,
-        encryption: Optional["EncryptionProperty"] = None,
-        data_endpoint_enabled: Optional[bool] = None,
-        public_network_access: Optional[Union[str, "PublicNetworkAccess"]] = None,
         **kwargs
     ):
         super(RegistryUpdateParameters, self).__init__(**kwargs)
-        self.tags = tags
-        self.sku = sku
-        self.identity = identity
-        self.admin_user_enabled = admin_user_enabled
-        self.network_rule_set = network_rule_set
-        self.policies = policies
-        self.encryption = encryption
-        self.data_endpoint_enabled = data_endpoint_enabled
-        self.public_network_access = public_network_access
+        self.tags = kwargs.get('tags', None)
+        self.sku = kwargs.get('sku', None)
+        self.identity = kwargs.get('identity', None)
+        self.admin_user_enabled = kwargs.get('admin_user_enabled', None)
+        self.network_rule_set = kwargs.get('network_rule_set', None)
+        self.policies = kwargs.get('policies', None)
+        self.encryption = kwargs.get('encryption', None)
+        self.data_endpoint_enabled = kwargs.get('data_endpoint_enabled', None)
+        self.public_network_access = kwargs.get('public_network_access', None)
 
 
 class RegistryUsage(msrest.serialization.Model):
@@ -3822,18 +3396,13 @@ class RegistryUsage(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Optional[str] = None,
-        limit: Optional[int] = None,
-        current_value: Optional[int] = None,
-        unit: Optional[Union[str, "RegistryUsageUnit"]] = None,
         **kwargs
     ):
         super(RegistryUsage, self).__init__(**kwargs)
-        self.name = name
-        self.limit = limit
-        self.current_value = current_value
-        self.unit = unit
+        self.name = kwargs.get('name', None)
+        self.limit = kwargs.get('limit', None)
+        self.current_value = kwargs.get('current_value', None)
+        self.unit = kwargs.get('unit', None)
 
 
 class RegistryUsageListResult(msrest.serialization.Model):
@@ -3849,12 +3418,10 @@ class RegistryUsageListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["RegistryUsage"]] = None,
         **kwargs
     ):
         super(RegistryUsageListResult, self).__init__(**kwargs)
-        self.value = value
+        self.value = kwargs.get('value', None)
 
 
 class Replication(Resource):
@@ -3910,16 +3477,12 @@ class Replication(Resource):
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        region_endpoint_enabled: Optional[bool] = True,
         **kwargs
     ):
-        super(Replication, self).__init__(location=location, tags=tags, **kwargs)
+        super(Replication, self).__init__(**kwargs)
         self.provisioning_state = None
         self.status = None
-        self.region_endpoint_enabled = region_endpoint_enabled
+        self.region_endpoint_enabled = kwargs.get('region_endpoint_enabled', True)
 
 
 class ReplicationListResult(msrest.serialization.Model):
@@ -3939,14 +3502,11 @@ class ReplicationListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Replication"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(ReplicationListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class ReplicationUpdateParameters(msrest.serialization.Model):
@@ -3967,14 +3527,11 @@ class ReplicationUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        region_endpoint_enabled: Optional[bool] = None,
         **kwargs
     ):
         super(ReplicationUpdateParameters, self).__init__(**kwargs)
-        self.tags = tags
-        self.region_endpoint_enabled = region_endpoint_enabled
+        self.tags = kwargs.get('tags', None)
+        self.region_endpoint_enabled = kwargs.get('region_endpoint_enabled', None)
 
 
 class Request(msrest.serialization.Model):
@@ -4004,20 +3561,14 @@ class Request(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        addr: Optional[str] = None,
-        host: Optional[str] = None,
-        method: Optional[str] = None,
-        useragent: Optional[str] = None,
         **kwargs
     ):
         super(Request, self).__init__(**kwargs)
-        self.id = id
-        self.addr = addr
-        self.host = host
-        self.method = method
-        self.useragent = useragent
+        self.id = kwargs.get('id', None)
+        self.addr = kwargs.get('addr', None)
+        self.host = kwargs.get('host', None)
+        self.method = kwargs.get('method', None)
+        self.useragent = kwargs.get('useragent', None)
 
 
 class RetentionPolicy(msrest.serialization.Model):
@@ -4046,15 +3597,12 @@ class RetentionPolicy(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        days: Optional[int] = 7,
-        status: Optional[Union[str, "PolicyStatus"]] = None,
         **kwargs
     ):
         super(RetentionPolicy, self).__init__(**kwargs)
-        self.days = days
+        self.days = kwargs.get('days', 7)
         self.last_updated_time = None
-        self.status = status
+        self.status = kwargs.get('status', None)
 
 
 class Run(ProxyResource):
@@ -4161,51 +3709,30 @@ class Run(ProxyResource):
 
     def __init__(
         self,
-        *,
-        run_id: Optional[str] = None,
-        status: Optional[Union[str, "RunStatus"]] = None,
-        last_updated_time: Optional[datetime.datetime] = None,
-        run_type: Optional[Union[str, "RunType"]] = None,
-        agent_pool_name: Optional[str] = None,
-        create_time: Optional[datetime.datetime] = None,
-        start_time: Optional[datetime.datetime] = None,
-        finish_time: Optional[datetime.datetime] = None,
-        output_images: Optional[List["ImageDescriptor"]] = None,
-        task: Optional[str] = None,
-        image_update_trigger: Optional["ImageUpdateTrigger"] = None,
-        source_trigger: Optional["SourceTriggerDescriptor"] = None,
-        timer_trigger: Optional["TimerTriggerDescriptor"] = None,
-        platform: Optional["PlatformProperties"] = None,
-        agent_configuration: Optional["AgentProperties"] = None,
-        source_registry_auth: Optional[str] = None,
-        custom_registries: Optional[List[str]] = None,
-        update_trigger_token: Optional[str] = None,
-        provisioning_state: Optional[Union[str, "ProvisioningState"]] = None,
-        is_archive_enabled: Optional[bool] = False,
         **kwargs
     ):
         super(Run, self).__init__(**kwargs)
-        self.run_id = run_id
-        self.status = status
-        self.last_updated_time = last_updated_time
-        self.run_type = run_type
-        self.agent_pool_name = agent_pool_name
-        self.create_time = create_time
-        self.start_time = start_time
-        self.finish_time = finish_time
-        self.output_images = output_images
-        self.task = task
-        self.image_update_trigger = image_update_trigger
-        self.source_trigger = source_trigger
-        self.timer_trigger = timer_trigger
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.source_registry_auth = source_registry_auth
-        self.custom_registries = custom_registries
+        self.run_id = kwargs.get('run_id', None)
+        self.status = kwargs.get('status', None)
+        self.last_updated_time = kwargs.get('last_updated_time', None)
+        self.run_type = kwargs.get('run_type', None)
+        self.agent_pool_name = kwargs.get('agent_pool_name', None)
+        self.create_time = kwargs.get('create_time', None)
+        self.start_time = kwargs.get('start_time', None)
+        self.finish_time = kwargs.get('finish_time', None)
+        self.output_images = kwargs.get('output_images', None)
+        self.task = kwargs.get('task', None)
+        self.image_update_trigger = kwargs.get('image_update_trigger', None)
+        self.source_trigger = kwargs.get('source_trigger', None)
+        self.timer_trigger = kwargs.get('timer_trigger', None)
+        self.platform = kwargs.get('platform', None)
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.source_registry_auth = kwargs.get('source_registry_auth', None)
+        self.custom_registries = kwargs.get('custom_registries', None)
         self.run_error_message = None
-        self.update_trigger_token = update_trigger_token
-        self.provisioning_state = provisioning_state
-        self.is_archive_enabled = is_archive_enabled
+        self.update_trigger_token = kwargs.get('update_trigger_token', None)
+        self.provisioning_state = kwargs.get('provisioning_state', None)
+        self.is_archive_enabled = kwargs.get('is_archive_enabled', False)
 
 
 class RunFilter(msrest.serialization.Model):
@@ -4249,28 +3776,18 @@ class RunFilter(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        run_id: Optional[str] = None,
-        run_type: Optional[Union[str, "RunType"]] = None,
-        status: Optional[Union[str, "RunStatus"]] = None,
-        create_time: Optional[datetime.datetime] = None,
-        finish_time: Optional[datetime.datetime] = None,
-        output_image_manifests: Optional[str] = None,
-        is_archive_enabled: Optional[bool] = None,
-        task_name: Optional[str] = None,
-        agent_pool_name: Optional[str] = None,
         **kwargs
     ):
         super(RunFilter, self).__init__(**kwargs)
-        self.run_id = run_id
-        self.run_type = run_type
-        self.status = status
-        self.create_time = create_time
-        self.finish_time = finish_time
-        self.output_image_manifests = output_image_manifests
-        self.is_archive_enabled = is_archive_enabled
-        self.task_name = task_name
-        self.agent_pool_name = agent_pool_name
+        self.run_id = kwargs.get('run_id', None)
+        self.run_type = kwargs.get('run_type', None)
+        self.status = kwargs.get('status', None)
+        self.create_time = kwargs.get('create_time', None)
+        self.finish_time = kwargs.get('finish_time', None)
+        self.output_image_manifests = kwargs.get('output_image_manifests', None)
+        self.is_archive_enabled = kwargs.get('is_archive_enabled', None)
+        self.task_name = kwargs.get('task_name', None)
+        self.agent_pool_name = kwargs.get('agent_pool_name', None)
 
 
 class RunGetLogResult(msrest.serialization.Model):
@@ -4289,14 +3806,11 @@ class RunGetLogResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        log_link: Optional[str] = None,
-        log_artifact_link: Optional[str] = None,
         **kwargs
     ):
         super(RunGetLogResult, self).__init__(**kwargs)
-        self.log_link = log_link
-        self.log_artifact_link = log_artifact_link
+        self.log_link = kwargs.get('log_link', None)
+        self.log_artifact_link = kwargs.get('log_artifact_link', None)
 
 
 class RunListResult(msrest.serialization.Model):
@@ -4315,14 +3829,11 @@ class RunListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Run"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(RunListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class RunUpdateParameters(msrest.serialization.Model):
@@ -4338,12 +3849,10 @@ class RunUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        is_archive_enabled: Optional[bool] = None,
         **kwargs
     ):
         super(RunUpdateParameters, self).__init__(**kwargs)
-        self.is_archive_enabled = is_archive_enabled
+        self.is_archive_enabled = kwargs.get('is_archive_enabled', None)
 
 
 class ScopeMap(ProxyResource):
@@ -4395,17 +3904,14 @@ class ScopeMap(ProxyResource):
 
     def __init__(
         self,
-        *,
-        description: Optional[str] = None,
-        actions: Optional[List[str]] = None,
         **kwargs
     ):
         super(ScopeMap, self).__init__(**kwargs)
-        self.description = description
+        self.description = kwargs.get('description', None)
         self.type_properties_type = None
         self.creation_date = None
         self.provisioning_state = None
-        self.actions = actions
+        self.actions = kwargs.get('actions', None)
 
 
 class ScopeMapListResult(msrest.serialization.Model):
@@ -4425,14 +3931,11 @@ class ScopeMapListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["ScopeMap"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(ScopeMapListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class ScopeMapUpdateParameters(msrest.serialization.Model):
@@ -4453,14 +3956,11 @@ class ScopeMapUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        description: Optional[str] = None,
-        actions: Optional[List[str]] = None,
         **kwargs
     ):
         super(ScopeMapUpdateParameters, self).__init__(**kwargs)
-        self.description = description
-        self.actions = actions
+        self.description = kwargs.get('description', None)
+        self.actions = kwargs.get('actions', None)
 
 
 class SecretObject(msrest.serialization.Model):
@@ -4483,14 +3983,11 @@ class SecretObject(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[str] = None,
-        type: Optional[Union[str, "SecretObjectType"]] = None,
         **kwargs
     ):
         super(SecretObject, self).__init__(**kwargs)
-        self.value = value
-        self.type = type
+        self.value = kwargs.get('value', None)
+        self.type = kwargs.get('type', None)
 
 
 class SetValue(msrest.serialization.Model):
@@ -4519,16 +4016,12 @@ class SetValue(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
-        value: str,
-        is_secret: Optional[bool] = False,
         **kwargs
     ):
         super(SetValue, self).__init__(**kwargs)
-        self.name = name
-        self.value = value
-        self.is_secret = is_secret
+        self.name = kwargs['name']
+        self.value = kwargs['value']
+        self.is_secret = kwargs.get('is_secret', False)
 
 
 class Sku(msrest.serialization.Model):
@@ -4558,12 +4051,10 @@ class Sku(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Union[str, "SkuName"],
         **kwargs
     ):
         super(Sku, self).__init__(**kwargs)
-        self.name = name
+        self.name = kwargs['name']
         self.tier = None
 
 
@@ -4584,14 +4075,11 @@ class Source(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        addr: Optional[str] = None,
-        instance_id: Optional[str] = None,
         **kwargs
     ):
         super(Source, self).__init__(**kwargs)
-        self.addr = addr
-        self.instance_id = instance_id
+        self.addr = kwargs.get('addr', None)
+        self.instance_id = kwargs.get('instance_id', None)
 
 
 class SourceProperties(msrest.serialization.Model):
@@ -4628,18 +4116,13 @@ class SourceProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_control_type: Union[str, "SourceControlType"],
-        repository_url: str,
-        branch: Optional[str] = None,
-        source_control_auth_properties: Optional["AuthInfo"] = None,
         **kwargs
     ):
         super(SourceProperties, self).__init__(**kwargs)
-        self.source_control_type = source_control_type
-        self.repository_url = repository_url
-        self.branch = branch
-        self.source_control_auth_properties = source_control_auth_properties
+        self.source_control_type = kwargs['source_control_type']
+        self.repository_url = kwargs['repository_url']
+        self.branch = kwargs.get('branch', None)
+        self.source_control_auth_properties = kwargs.get('source_control_auth_properties', None)
 
 
 class SourceRegistryCredentials(msrest.serialization.Model):
@@ -4659,12 +4142,10 @@ class SourceRegistryCredentials(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        login_mode: Optional[Union[str, "SourceRegistryLoginMode"]] = None,
         **kwargs
     ):
         super(SourceRegistryCredentials, self).__init__(**kwargs)
-        self.login_mode = login_mode
+        self.login_mode = kwargs.get('login_mode', None)
 
 
 class SourceTrigger(msrest.serialization.Model):
@@ -4700,18 +4181,13 @@ class SourceTrigger(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_repository: "SourceProperties",
-        source_trigger_events: List[Union[str, "SourceTriggerEvent"]],
-        name: str,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(SourceTrigger, self).__init__(**kwargs)
-        self.source_repository = source_repository
-        self.source_trigger_events = source_trigger_events
-        self.status = status
-        self.name = name
+        self.source_repository = kwargs['source_repository']
+        self.source_trigger_events = kwargs['source_trigger_events']
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class SourceTriggerDescriptor(msrest.serialization.Model):
@@ -4745,24 +4221,16 @@ class SourceTriggerDescriptor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: Optional[str] = None,
-        event_type: Optional[str] = None,
-        commit_id: Optional[str] = None,
-        pull_request_id: Optional[str] = None,
-        repository_url: Optional[str] = None,
-        branch_name: Optional[str] = None,
-        provider_type: Optional[str] = None,
         **kwargs
     ):
         super(SourceTriggerDescriptor, self).__init__(**kwargs)
-        self.id = id
-        self.event_type = event_type
-        self.commit_id = commit_id
-        self.pull_request_id = pull_request_id
-        self.repository_url = repository_url
-        self.branch_name = branch_name
-        self.provider_type = provider_type
+        self.id = kwargs.get('id', None)
+        self.event_type = kwargs.get('event_type', None)
+        self.commit_id = kwargs.get('commit_id', None)
+        self.pull_request_id = kwargs.get('pull_request_id', None)
+        self.repository_url = kwargs.get('repository_url', None)
+        self.branch_name = kwargs.get('branch_name', None)
+        self.provider_type = kwargs.get('provider_type', None)
 
 
 class SourceTriggerUpdateParameters(msrest.serialization.Model):
@@ -4795,18 +4263,13 @@ class SourceTriggerUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
-        source_repository: Optional["SourceUpdateParameters"] = None,
-        source_trigger_events: Optional[List[Union[str, "SourceTriggerEvent"]]] = None,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(SourceTriggerUpdateParameters, self).__init__(**kwargs)
-        self.source_repository = source_repository
-        self.source_trigger_events = source_trigger_events
-        self.status = status
-        self.name = name
+        self.source_repository = kwargs.get('source_repository', None)
+        self.source_trigger_events = kwargs.get('source_trigger_events', None)
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class SourceUpdateParameters(msrest.serialization.Model):
@@ -4836,18 +4299,13 @@ class SourceUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        source_control_type: Optional[Union[str, "SourceControlType"]] = None,
-        repository_url: Optional[str] = None,
-        branch: Optional[str] = None,
-        source_control_auth_properties: Optional["AuthInfoUpdateParameters"] = None,
         **kwargs
     ):
         super(SourceUpdateParameters, self).__init__(**kwargs)
-        self.source_control_type = source_control_type
-        self.repository_url = repository_url
-        self.branch = branch
-        self.source_control_auth_properties = source_control_auth_properties
+        self.source_control_type = kwargs.get('source_control_type', None)
+        self.repository_url = kwargs.get('repository_url', None)
+        self.branch = kwargs.get('branch', None)
+        self.source_control_auth_properties = kwargs.get('source_control_auth_properties', None)
 
 
 class SourceUploadDefinition(msrest.serialization.Model):
@@ -4867,14 +4325,11 @@ class SourceUploadDefinition(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        upload_url: Optional[str] = None,
-        relative_path: Optional[str] = None,
         **kwargs
     ):
         super(SourceUploadDefinition, self).__init__(**kwargs)
-        self.upload_url = upload_url
-        self.relative_path = relative_path
+        self.upload_url = kwargs.get('upload_url', None)
+        self.relative_path = kwargs.get('relative_path', None)
 
 
 class Status(msrest.serialization.Model):
@@ -4931,12 +4386,10 @@ class StorageAccountProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        id: str,
         **kwargs
     ):
         super(StorageAccountProperties, self).__init__(**kwargs)
-        self.id = id
+        self.id = kwargs['id']
 
 
 class Target(msrest.serialization.Model):
@@ -4976,28 +4429,18 @@ class Target(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        media_type: Optional[str] = None,
-        size: Optional[int] = None,
-        digest: Optional[str] = None,
-        length: Optional[int] = None,
-        repository: Optional[str] = None,
-        url: Optional[str] = None,
-        tag: Optional[str] = None,
-        name: Optional[str] = None,
-        version: Optional[str] = None,
         **kwargs
     ):
         super(Target, self).__init__(**kwargs)
-        self.media_type = media_type
-        self.size = size
-        self.digest = digest
-        self.length = length
-        self.repository = repository
-        self.url = url
-        self.tag = tag
-        self.name = name
-        self.version = version
+        self.media_type = kwargs.get('media_type', None)
+        self.size = kwargs.get('size', None)
+        self.digest = kwargs.get('digest', None)
+        self.length = kwargs.get('length', None)
+        self.repository = kwargs.get('repository', None)
+        self.url = kwargs.get('url', None)
+        self.tag = kwargs.get('tag', None)
+        self.name = kwargs.get('name', None)
+        self.version = kwargs.get('version', None)
 
 
 class Task(Resource):
@@ -5078,32 +4521,20 @@ The task will have all information to schedule a run against it.
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["IdentityProperties"] = None,
-        status: Optional[Union[str, "TaskStatus"]] = None,
-        platform: Optional["PlatformProperties"] = None,
-        agent_configuration: Optional["AgentProperties"] = None,
-        agent_pool_name: Optional[str] = None,
-        timeout: Optional[int] = 3600,
-        step: Optional["TaskStepProperties"] = None,
-        trigger: Optional["TriggerProperties"] = None,
-        credentials: Optional["Credentials"] = None,
         **kwargs
     ):
-        super(Task, self).__init__(location=location, tags=tags, **kwargs)
-        self.identity = identity
+        super(Task, self).__init__(**kwargs)
+        self.identity = kwargs.get('identity', None)
         self.provisioning_state = None
         self.creation_date = None
-        self.status = status
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.agent_pool_name = agent_pool_name
-        self.timeout = timeout
-        self.step = step
-        self.trigger = trigger
-        self.credentials = credentials
+        self.status = kwargs.get('status', None)
+        self.platform = kwargs.get('platform', None)
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.agent_pool_name = kwargs.get('agent_pool_name', None)
+        self.timeout = kwargs.get('timeout', 3600)
+        self.step = kwargs.get('step', None)
+        self.trigger = kwargs.get('trigger', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class TaskListResult(msrest.serialization.Model):
@@ -5122,14 +4553,11 @@ class TaskListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Task"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(TaskListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class TaskRun(ProxyResource):
@@ -5183,20 +4611,15 @@ The task run will have the information of request and result of a run.
 
     def __init__(
         self,
-        *,
-        identity: Optional["IdentityProperties"] = None,
-        location: Optional[str] = None,
-        run_request: Optional["RunRequest"] = None,
-        force_update_tag: Optional[str] = None,
         **kwargs
     ):
         super(TaskRun, self).__init__(**kwargs)
-        self.identity = identity
-        self.location = location
+        self.identity = kwargs.get('identity', None)
+        self.location = kwargs.get('location', None)
         self.provisioning_state = None
-        self.run_request = run_request
+        self.run_request = kwargs.get('run_request', None)
         self.run_result = None
-        self.force_update_tag = force_update_tag
+        self.force_update_tag = kwargs.get('force_update_tag', None)
 
 
 class TaskRunListResult(msrest.serialization.Model):
@@ -5215,14 +4638,11 @@ class TaskRunListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["TaskRun"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(TaskRunListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class TaskRunRequest(RunRequest):
@@ -5260,17 +4680,12 @@ class TaskRunRequest(RunRequest):
 
     def __init__(
         self,
-        *,
-        task_id: str,
-        is_archive_enabled: Optional[bool] = False,
-        agent_pool_name: Optional[str] = None,
-        override_task_step_properties: Optional["OverrideTaskStepProperties"] = None,
         **kwargs
     ):
-        super(TaskRunRequest, self).__init__(is_archive_enabled=is_archive_enabled, agent_pool_name=agent_pool_name, **kwargs)
+        super(TaskRunRequest, self).__init__(**kwargs)
         self.type = 'TaskRunRequest'  # type: str
-        self.task_id = task_id
-        self.override_task_step_properties = override_task_step_properties
+        self.task_id = kwargs['task_id']
+        self.override_task_step_properties = kwargs.get('override_task_step_properties', None)
 
 
 class TaskRunUpdateParameters(msrest.serialization.Model):
@@ -5299,20 +4714,14 @@ class TaskRunUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        identity: Optional["IdentityProperties"] = None,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        run_request: Optional["RunRequest"] = None,
-        force_update_tag: Optional[str] = None,
         **kwargs
     ):
         super(TaskRunUpdateParameters, self).__init__(**kwargs)
-        self.identity = identity
-        self.location = location
-        self.tags = tags
-        self.run_request = run_request
-        self.force_update_tag = force_update_tag
+        self.identity = kwargs.get('identity', None)
+        self.location = kwargs.get('location', None)
+        self.tags = kwargs.get('tags', None)
+        self.run_request = kwargs.get('run_request', None)
+        self.force_update_tag = kwargs.get('force_update_tag', None)
 
 
 class TaskUpdateParameters(msrest.serialization.Model):
@@ -5358,30 +4767,19 @@ class TaskUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        identity: Optional["IdentityProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "TaskStatus"]] = None,
-        platform: Optional["PlatformUpdateParameters"] = None,
-        agent_configuration: Optional["AgentProperties"] = None,
-        agent_pool_name: Optional[str] = None,
-        timeout: Optional[int] = None,
-        step: Optional["TaskStepUpdateParameters"] = None,
-        trigger: Optional["TriggerUpdateParameters"] = None,
-        credentials: Optional["Credentials"] = None,
         **kwargs
     ):
         super(TaskUpdateParameters, self).__init__(**kwargs)
-        self.identity = identity
-        self.tags = tags
-        self.status = status
-        self.platform = platform
-        self.agent_configuration = agent_configuration
-        self.agent_pool_name = agent_pool_name
-        self.timeout = timeout
-        self.step = step
-        self.trigger = trigger
-        self.credentials = credentials
+        self.identity = kwargs.get('identity', None)
+        self.tags = kwargs.get('tags', None)
+        self.status = kwargs.get('status', None)
+        self.platform = kwargs.get('platform', None)
+        self.agent_configuration = kwargs.get('agent_configuration', None)
+        self.agent_pool_name = kwargs.get('agent_pool_name', None)
+        self.timeout = kwargs.get('timeout', None)
+        self.step = kwargs.get('step', None)
+        self.trigger = kwargs.get('trigger', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class TimerTrigger(msrest.serialization.Model):
@@ -5410,16 +4808,12 @@ class TimerTrigger(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        schedule: str,
-        name: str,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(TimerTrigger, self).__init__(**kwargs)
-        self.schedule = schedule
-        self.status = status
-        self.name = name
+        self.schedule = kwargs['schedule']
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class TimerTriggerDescriptor(msrest.serialization.Model):
@@ -5438,14 +4832,11 @@ class TimerTriggerDescriptor(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        timer_trigger_name: Optional[str] = None,
-        schedule_occurrence: Optional[str] = None,
         **kwargs
     ):
         super(TimerTriggerDescriptor, self).__init__(**kwargs)
-        self.timer_trigger_name = timer_trigger_name
-        self.schedule_occurrence = schedule_occurrence
+        self.timer_trigger_name = kwargs.get('timer_trigger_name', None)
+        self.schedule_occurrence = kwargs.get('schedule_occurrence', None)
 
 
 class TimerTriggerUpdateParameters(msrest.serialization.Model):
@@ -5473,16 +4864,12 @@ class TimerTriggerUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: str,
-        schedule: Optional[str] = None,
-        status: Optional[Union[str, "TriggerStatus"]] = None,
         **kwargs
     ):
         super(TimerTriggerUpdateParameters, self).__init__(**kwargs)
-        self.schedule = schedule
-        self.status = status
-        self.name = name
+        self.schedule = kwargs.get('schedule', None)
+        self.status = kwargs.get('status', None)
+        self.name = kwargs['name']
 
 
 class Token(ProxyResource):
@@ -5534,18 +4921,14 @@ class Token(ProxyResource):
 
     def __init__(
         self,
-        *,
-        scope_map_id: Optional[str] = None,
-        credentials: Optional["TokenCredentialsProperties"] = None,
-        status: Optional[Union[str, "TokenStatus"]] = None,
         **kwargs
     ):
         super(Token, self).__init__(**kwargs)
         self.creation_date = None
         self.provisioning_state = None
-        self.scope_map_id = scope_map_id
-        self.credentials = credentials
-        self.status = status
+        self.scope_map_id = kwargs.get('scope_map_id', None)
+        self.credentials = kwargs.get('credentials', None)
+        self.status = kwargs.get('status', None)
 
 
 class TokenCertificate(msrest.serialization.Model):
@@ -5572,18 +4955,13 @@ class TokenCertificate(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        name: Optional[Union[str, "TokenCertificateName"]] = None,
-        expiry: Optional[datetime.datetime] = None,
-        thumbprint: Optional[str] = None,
-        encoded_pem_certificate: Optional[str] = None,
         **kwargs
     ):
         super(TokenCertificate, self).__init__(**kwargs)
-        self.name = name
-        self.expiry = expiry
-        self.thumbprint = thumbprint
-        self.encoded_pem_certificate = encoded_pem_certificate
+        self.name = kwargs.get('name', None)
+        self.expiry = kwargs.get('expiry', None)
+        self.thumbprint = kwargs.get('thumbprint', None)
+        self.encoded_pem_certificate = kwargs.get('encoded_pem_certificate', None)
 
 
 class TokenCredentialsProperties(msrest.serialization.Model):
@@ -5608,16 +4986,12 @@ class TokenCredentialsProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        active_directory_object: Optional["ActiveDirectoryObject"] = None,
-        certificates: Optional[List["TokenCertificate"]] = None,
-        passwords: Optional[List["TokenPassword"]] = None,
         **kwargs
     ):
         super(TokenCredentialsProperties, self).__init__(**kwargs)
-        self.active_directory_object = active_directory_object
-        self.certificates = certificates
-        self.passwords = passwords
+        self.active_directory_object = kwargs.get('active_directory_object', None)
+        self.certificates = kwargs.get('certificates', None)
+        self.passwords = kwargs.get('passwords', None)
 
 
 class TokenListResult(msrest.serialization.Model):
@@ -5637,14 +5011,11 @@ class TokenListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Token"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(TokenListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class TokenPassword(msrest.serialization.Model):
@@ -5676,16 +5047,12 @@ class TokenPassword(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        creation_time: Optional[datetime.datetime] = None,
-        expiry: Optional[datetime.datetime] = None,
-        name: Optional[Union[str, "TokenPasswordName"]] = None,
         **kwargs
     ):
         super(TokenPassword, self).__init__(**kwargs)
-        self.creation_time = creation_time
-        self.expiry = expiry
-        self.name = name
+        self.creation_time = kwargs.get('creation_time', None)
+        self.expiry = kwargs.get('expiry', None)
+        self.name = kwargs.get('name', None)
         self.value = None
 
 
@@ -5711,16 +5078,12 @@ class TokenUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        scope_map_id: Optional[str] = None,
-        status: Optional[Union[str, "TokenStatus"]] = None,
-        credentials: Optional["TokenCredentialsProperties"] = None,
         **kwargs
     ):
         super(TokenUpdateParameters, self).__init__(**kwargs)
-        self.scope_map_id = scope_map_id
-        self.status = status
-        self.credentials = credentials
+        self.scope_map_id = kwargs.get('scope_map_id', None)
+        self.status = kwargs.get('status', None)
+        self.credentials = kwargs.get('credentials', None)
 
 
 class TriggerProperties(msrest.serialization.Model):
@@ -5745,16 +5108,12 @@ class TriggerProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        timer_triggers: Optional[List["TimerTrigger"]] = None,
-        source_triggers: Optional[List["SourceTrigger"]] = None,
-        base_image_trigger: Optional["BaseImageTrigger"] = None,
         **kwargs
     ):
         super(TriggerProperties, self).__init__(**kwargs)
-        self.timer_triggers = timer_triggers
-        self.source_triggers = source_triggers
-        self.base_image_trigger = base_image_trigger
+        self.timer_triggers = kwargs.get('timer_triggers', None)
+        self.source_triggers = kwargs.get('source_triggers', None)
+        self.base_image_trigger = kwargs.get('base_image_trigger', None)
 
 
 class TriggerUpdateParameters(msrest.serialization.Model):
@@ -5779,16 +5138,12 @@ class TriggerUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        timer_triggers: Optional[List["TimerTriggerUpdateParameters"]] = None,
-        source_triggers: Optional[List["SourceTriggerUpdateParameters"]] = None,
-        base_image_trigger: Optional["BaseImageTriggerUpdateParameters"] = None,
         **kwargs
     ):
         super(TriggerUpdateParameters, self).__init__(**kwargs)
-        self.timer_triggers = timer_triggers
-        self.source_triggers = source_triggers
-        self.base_image_trigger = base_image_trigger
+        self.timer_triggers = kwargs.get('timer_triggers', None)
+        self.source_triggers = kwargs.get('source_triggers', None)
+        self.base_image_trigger = kwargs.get('base_image_trigger', None)
 
 
 class TrustPolicy(msrest.serialization.Model):
@@ -5809,14 +5164,11 @@ class TrustPolicy(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        type: Optional[Union[str, "TrustPolicyType"]] = "Notary",
-        status: Optional[Union[str, "PolicyStatus"]] = None,
         **kwargs
     ):
         super(TrustPolicy, self).__init__(**kwargs)
-        self.type = type
-        self.status = status
+        self.type = kwargs.get('type', "Notary")
+        self.status = kwargs.get('status', None)
 
 
 class UserIdentityProperties(msrest.serialization.Model):
@@ -5835,14 +5187,11 @@ class UserIdentityProperties(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        principal_id: Optional[str] = None,
-        client_id: Optional[str] = None,
         **kwargs
     ):
         super(UserIdentityProperties, self).__init__(**kwargs)
-        self.principal_id = principal_id
-        self.client_id = client_id
+        self.principal_id = kwargs.get('principal_id', None)
+        self.client_id = kwargs.get('client_id', None)
 
 
 class VirtualNetworkRule(msrest.serialization.Model):
@@ -5868,14 +5217,11 @@ class VirtualNetworkRule(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        virtual_network_resource_id: str,
-        action: Optional[Union[str, "Action"]] = None,
         **kwargs
     ):
         super(VirtualNetworkRule, self).__init__(**kwargs)
-        self.action = action
-        self.virtual_network_resource_id = virtual_network_resource_id
+        self.action = kwargs.get('action', None)
+        self.virtual_network_resource_id = kwargs['virtual_network_resource_id']
 
 
 class Webhook(Resource):
@@ -5935,18 +5281,12 @@ class Webhook(Resource):
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "WebhookStatus"]] = None,
-        scope: Optional[str] = None,
-        actions: Optional[List[Union[str, "WebhookAction"]]] = None,
         **kwargs
     ):
-        super(Webhook, self).__init__(location=location, tags=tags, **kwargs)
-        self.status = status
-        self.scope = scope
-        self.actions = actions
+        super(Webhook, self).__init__(**kwargs)
+        self.status = kwargs.get('status', None)
+        self.scope = kwargs.get('scope', None)
+        self.actions = kwargs.get('actions', None)
         self.provisioning_state = None
 
 
@@ -5992,24 +5332,16 @@ class WebhookCreateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        service_uri: Optional[str] = None,
-        custom_headers: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "WebhookStatus"]] = None,
-        scope: Optional[str] = None,
-        actions: Optional[List[Union[str, "WebhookAction"]]] = None,
         **kwargs
     ):
         super(WebhookCreateParameters, self).__init__(**kwargs)
-        self.tags = tags
-        self.location = location
-        self.service_uri = service_uri
-        self.custom_headers = custom_headers
-        self.status = status
-        self.scope = scope
-        self.actions = actions
+        self.tags = kwargs.get('tags', None)
+        self.location = kwargs['location']
+        self.service_uri = kwargs.get('service_uri', None)
+        self.custom_headers = kwargs.get('custom_headers', None)
+        self.status = kwargs.get('status', None)
+        self.scope = kwargs.get('scope', None)
+        self.actions = kwargs.get('actions', None)
 
 
 class WebhookListResult(msrest.serialization.Model):
@@ -6029,14 +5361,11 @@ class WebhookListResult(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        value: Optional[List["Webhook"]] = None,
-        next_link: Optional[str] = None,
         **kwargs
     ):
         super(WebhookListResult, self).__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
+        self.value = kwargs.get('value', None)
+        self.next_link = kwargs.get('next_link', None)
 
 
 class WebhookUpdateParameters(msrest.serialization.Model):
@@ -6071,19 +5400,12 @@ class WebhookUpdateParameters(msrest.serialization.Model):
 
     def __init__(
         self,
-        *,
-        tags: Optional[Dict[str, str]] = None,
-        service_uri: Optional[str] = None,
-        custom_headers: Optional[Dict[str, str]] = None,
-        status: Optional[Union[str, "WebhookStatus"]] = None,
-        scope: Optional[str] = None,
-        actions: Optional[List[Union[str, "WebhookAction"]]] = None,
         **kwargs
     ):
         super(WebhookUpdateParameters, self).__init__(**kwargs)
-        self.tags = tags
-        self.service_uri = service_uri
-        self.custom_headers = custom_headers
-        self.status = status
-        self.scope = scope
-        self.actions = actions
+        self.tags = kwargs.get('tags', None)
+        self.service_uri = kwargs.get('service_uri', None)
+        self.custom_headers = kwargs.get('custom_headers', None)
+        self.status = kwargs.get('status', None)
+        self.scope = kwargs.get('scope', None)
+        self.actions = kwargs.get('actions', None)

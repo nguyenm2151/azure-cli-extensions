@@ -5,18 +5,21 @@
 # pylint: disable=line-too-long
 
 from azure.cli.core.azclierror import ResourceNotFoundError
-from .vendored_sdks.containerregistry.v2019_12_01_preview.models._models_py3 import ImportPipeline, ImportPipelineSourceProperties, PipelineTriggerProperties, PipelineSourceTriggerProperties
+from .vendored_sdks.containerregistry.v2025_06_01_preview.models._models_py3 import ImportPipeline, ImportPipelineSourceProperties, PipelineTriggerProperties, PipelineSourceTriggerProperties
 from .utility_functions import create_identity_properties
 
 
-def create_importpipeline(client, resource_group_name, registry_name, import_pipeline_name, keyvault_secret_uri, storage_account_container_uri, options=None, user_assigned_identity_resource_id=None, source_trigger_enabled=True):
+def create_importpipeline(client, resource_group_name, registry_name, import_pipeline_name, storage_account_container_uri, storage_access_mode, keyvault_secret_uri=None, options=None, user_assigned_identity_resource_id=None, source_trigger_enabled=True):
     '''Create an import pipeline.'''
 
-    keyvault_secret_uri = keyvault_secret_uri.lower()
     storage_account_container_uri = storage_account_container_uri.lower()
+    if keyvault_secret_uri:
+        keyvault_secret_uri = keyvault_secret_uri.lower()
 
     identity_properties = create_identity_properties(user_assigned_identity_resource_id)
-    import_pipeline_source_properties = ImportPipelineSourceProperties(key_vault_uri=keyvault_secret_uri, uri=storage_account_container_uri)
+    import_pipeline_source_properties = ImportPipelineSourceProperties(storage_access_mode=storage_access_mode,
+                                                                       key_vault_uri=keyvault_secret_uri,
+                                                                       uri=storage_account_container_uri)
     source_trigger_status = "Enabled" if source_trigger_enabled else "Disabled"
 
     pipeline_source_trigger_properties = PipelineSourceTriggerProperties(status=source_trigger_status)
