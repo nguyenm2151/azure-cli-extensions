@@ -249,11 +249,75 @@ class AcrTransferPipelineScenarioTest(ScenarioTest):
         self.cmd('acr delete -g {rg} -n {registry} --yes')
         self.cmd('keyvault delete -g {rg} -n {keyvault}')
 
+    @ResourceGroupPreparer(name_prefix='cli_test_acr_transfer_export_mi_invalid_')
+    @StorageAccountPreparer(name_prefix='acrtransfer', kind='StorageV2', sku='Standard_LRS')
+    def test_acr_export_pipeline_entra_mi_auth_with_secret_uri_fails(self, resource_group, storage_account):
+        """
+        Test Case 6: Verify export pipeline creation fails when entra-mi-auth is used with --secret-uri.
+        Expected: Command should fail with validation error since --secret-uri is only for SAS token mode.
+        """
+        self.kwargs.update({
+            'registry': self.create_random_name('acrtest', 20),
+            'pipeline': self.create_random_name('pipeline', 20),
+            'storage_account': storage_account,
+            'container': 'export-container',
+            'keyvault': 'dummy-keyvault',
+            'secret': 'dummy-secret'
+        })
+
+        # Create registry
+        self.cmd('acr create -g {rg} -n {registry} --sku Premium')
+
+        # Create storage container
+        self.cmd('storage container create -n {container} --account-name {storage_account}')
+
+        # Attempt to create export pipeline with entra-mi-auth AND secret-uri (should fail)
+        self.cmd('acr export-pipeline create -g {rg} -r {registry} -n {pipeline} '
+                 '--storage-access-mode entra-mi-auth '
+                 '--secret-uri https://{keyvault}.vault.azure.net/secrets/{secret} '
+                 '--storage-container-uri https://{storage_account}.blob.core.windows.net/{container}',
+                 expect_failure=True)
+
+        # Clean up
+        self.cmd('acr delete -g {rg} -n {registry} --yes')
+
+    @ResourceGroupPreparer(name_prefix='cli_test_acr_transfer_import_mi_invalid_')
+    @StorageAccountPreparer(name_prefix='acrtransfer', kind='StorageV2', sku='Standard_LRS')
+    def test_acr_import_pipeline_entra_mi_auth_with_secret_uri_fails(self, resource_group, storage_account):
+        """
+        Test Case 7: Verify import pipeline creation fails when entra-mi-auth is used with --secret-uri.
+        Expected: Command should fail with validation error since --secret-uri is only for SAS token mode.
+        """
+        self.kwargs.update({
+            'registry': self.create_random_name('acrtest', 20),
+            'pipeline': self.create_random_name('pipeline', 20),
+            'storage_account': storage_account,
+            'container': 'import-container',
+            'keyvault': 'dummy-keyvault',
+            'secret': 'dummy-secret'
+        })
+
+        # Create registry
+        self.cmd('acr create -g {rg} -n {registry} --sku Premium')
+
+        # Create storage container
+        self.cmd('storage container create -n {container} --account-name {storage_account}')
+
+        # Attempt to create import pipeline with entra-mi-auth AND secret-uri (should fail)
+        self.cmd('acr import-pipeline create -g {rg} -r {registry} -n {pipeline} '
+                 '--storage-access-mode entra-mi-auth '
+                 '--secret-uri https://{keyvault}.vault.azure.net/secrets/{secret} '
+                 '--storage-container-uri https://{storage_account}.blob.core.windows.net/{container}',
+                 expect_failure=True)
+
+        # Clean up
+        self.cmd('acr delete -g {rg} -n {registry} --yes')
+
     @ResourceGroupPreparer(name_prefix='cli_test_acr_transfer_import_uai_')
     @StorageAccountPreparer(name_prefix='acrtransfer', kind='StorageV2', sku='Standard_LRS')
     def test_acr_import_pipeline_entra_mi_auth_user_assigned(self, resource_group, storage_account):
         """
-        Test Case 6: Create import pipeline with entra-mi-auth mode and user-assigned identity.
+        Test Case 11: Create import pipeline with entra-mi-auth mode and user-assigned identity.
         Expected: Pipeline should use the provided user-assigned managed identity.
         """
         self.kwargs.update({
