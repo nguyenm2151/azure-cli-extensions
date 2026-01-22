@@ -12,19 +12,17 @@ from azure.cli.core.aaz import *
 
 
 @register_command(
-    "edge-action delete-attachment",
+    "vmware license delete",
+    confirmation="Are you sure you want to perform this operation?",
 )
-class DeleteAttachment(AAZCommand):
-    """A long-running operation for deleting an EdgeAction attachment that returns no content.
-
-    :example: EdgeActions_DeleteAttachment
-        az edge-action delete-attachment --resource-group testrg --edge-action-name edgeAction1 --attached-resource-id /subscriptions/sub1/resourceGroups/rs1/providers/Microsoft.Cdn/Profiles/myProfile/afdEndpoints/ep1/routes/route1
+class Delete(AAZCommand):
+    """Delete a License
     """
 
     _aaz_info = {
-        "version": "2025-09-01-preview",
+        "version": "2025-09-01",
         "resources": [
-            ["mgmt-plane", "/subscriptions/{}/resourcegroups/{}/providers/microsoft.cdn/edgeactions/{}/deleteattachment", "2025-09-01-preview"],
+            ["mgmt-plane", "/subscriptions/{}/resourcegroups/{}/providers/microsoft.avs/privateclouds/{}/licenses/{}", "2025-09-01"],
         ]
     }
 
@@ -45,34 +43,33 @@ class DeleteAttachment(AAZCommand):
         # define Arg Group ""
 
         _args_schema = cls._args_schema
-        _args_schema.edge_action_name = AAZStrArg(
-            options=["--edge-action-name"],
-            help="The name of the Edge Action",
+        _args_schema.license_name = AAZStrArg(
+            options=["-l", "--license-name"],
+            help="Name of the license.",
+            required=True,
+            id_part="child_name_1",
+            enum={"VmwareFirewall": "VmwareFirewall"},
+            fmt=AAZStrArgFormat(
+                pattern="^[-\\w\\._]+$",
+            ),
+        )
+        _args_schema.private_cloud_name = AAZStrArg(
+            options=["-n", "--private-cloud-name"],
+            help="Name of the private cloud",
             required=True,
             id_part="name",
             fmt=AAZStrArgFormat(
-                pattern="[a-zA-Z0-9]+",
-                max_length=50,
+                pattern="^[-\\w\\._]+$",
             ),
         )
         _args_schema.resource_group = AAZResourceGroupNameArg(
-            required=True,
-        )
-
-        # define Arg Group "Body"
-
-        _args_schema = cls._args_schema
-        _args_schema.attached_resource_id = AAZResourceIdArg(
-            options=["--attached-resource-id"],
-            arg_group="Body",
-            help="The attached resource Id",
             required=True,
         )
         return cls._args_schema
 
     def _execute_operations(self):
         self.pre_operations()
-        yield self.EdgeActionsDeleteAttachment(ctx=self.ctx)()
+        yield self.LicensesDelete(ctx=self.ctx)()
         self.post_operations()
 
     @register_callback
@@ -83,7 +80,7 @@ class DeleteAttachment(AAZCommand):
     def post_operations(self):
         pass
 
-    class EdgeActionsDeleteAttachment(AAZHttpOperation):
+    class LicensesDelete(AAZHttpOperation):
         CLIENT_TYPE = "MgmtClient"
 
         def __call__(self, *args, **kwargs):
@@ -122,13 +119,13 @@ class DeleteAttachment(AAZCommand):
         @property
         def url(self):
             return self.client.format_url(
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/deleteAttachment",
+                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/licenses/{licenseName}",
                 **self.url_parameters
             )
 
         @property
         def method(self):
-            return "POST"
+            return "DELETE"
 
         @property
         def error_format(self):
@@ -138,7 +135,11 @@ class DeleteAttachment(AAZCommand):
         def url_parameters(self):
             parameters = {
                 **self.serialize_url_param(
-                    "edgeActionName", self.ctx.args.edge_action_name,
+                    "licenseName", self.ctx.args.license_name,
+                    required=True,
+                ),
+                **self.serialize_url_param(
+                    "privateCloudName", self.ctx.args.private_cloud_name,
                     required=True,
                 ),
                 **self.serialize_url_param(
@@ -156,31 +157,11 @@ class DeleteAttachment(AAZCommand):
         def query_parameters(self):
             parameters = {
                 **self.serialize_query_param(
-                    "api-version", "2025-09-01-preview",
+                    "api-version", "2025-09-01",
                     required=True,
                 ),
             }
             return parameters
-
-        @property
-        def header_parameters(self):
-            parameters = {
-                **self.serialize_header_param(
-                    "Content-Type", "application/json",
-                ),
-            }
-            return parameters
-
-        @property
-        def content(self):
-            _content_value, _builder = self.new_content_builder(
-                self.ctx.args,
-                typ=AAZObjectType,
-                typ_kwargs={"flags": {"required": True, "client_flatten": True}}
-            )
-            _builder.set_prop("attachedResourceId", AAZStrType, ".attached_resource_id", typ_kwargs={"flags": {"required": True}})
-
-            return self.serialize_content(_content_value)
 
         def on_204(self, session):
             pass
@@ -189,8 +170,8 @@ class DeleteAttachment(AAZCommand):
             pass
 
 
-class _DeleteAttachmentHelper:
-    """Helper class for DeleteAttachment"""
+class _DeleteHelper:
+    """Helper class for Delete"""
 
 
-__all__ = ["DeleteAttachment"]
+__all__ = ["Delete"]
