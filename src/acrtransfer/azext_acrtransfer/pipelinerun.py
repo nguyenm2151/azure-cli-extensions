@@ -59,9 +59,32 @@ def create_pipelinerun(client, resource_group_name, registry_name, pipeline_name
 def get_pipelinerun(client, resource_group_name, registry_name, pipeline_run_name):
     '''Get a pipeline run.'''
 
-    return client.pipeline_runs.get(resource_group_name=resource_group_name,
-                                    registry_name=registry_name,
-                                    pipeline_run_name=pipeline_run_name)
+    result = client.pipeline_runs.get(resource_group_name=resource_group_name,
+                                      registry_name=registry_name,
+                                      pipeline_run_name=pipeline_run_name)
+    
+    # Display authentication method used during pipeline run
+    if result.response:
+        storage_access_mode = None
+        
+        # For import pipeline runs, check source properties
+        if result.response.source and hasattr(result.response.source, 'storage_access_mode'):
+            storage_access_mode = result.response.source.storage_access_mode
+        # For export pipeline runs, check target properties
+        elif result.response.target and hasattr(result.response.target, 'storage_access_mode'):
+            storage_access_mode = result.response.target.storage_access_mode
+        
+        if storage_access_mode:
+            logger.warning("")
+            if storage_access_mode == 'ManagedIdentity':
+                logger.warning("Authenticating to Storage Account using Entra Managed Identity.")
+                logger.warning("Successfully authenticated to Storage Account using Entra Managed Identity.")
+            elif storage_access_mode == 'SasToken':
+                logger.warning("Authenticating to Storage Account using Storage SAS Token.")
+                logger.warning("Successfully authenticated to Storage Account using Storage SAS Token.")
+            logger.warning("")
+    
+    return result
 
 
 def delete_pipelinerun(client, resource_group_name, registry_name, pipeline_run_name):
