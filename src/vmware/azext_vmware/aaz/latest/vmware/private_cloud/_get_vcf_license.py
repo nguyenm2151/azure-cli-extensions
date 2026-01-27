@@ -12,27 +12,26 @@ from azure.cli.core.aaz import *
 
 
 @register_command(
-    "edge-action add-attachment",
+    "vmware private-cloud get-vcf-license",
 )
-class AddAttachment(AAZCommand):
-    """A long-running operation for adding an EdgeAction attachment.
+class GetVcfLicense(AAZCommand):
+    """Get the license for the private cloud
 
-    :example: EdgeActions_AddAttachment
-        az edge-action add-attachment --resource-group testrg --edge-action-name edgeAction1 --attached-resource-id /subscriptions/sub1/resourceGroups/rs1/providers/Microsoft.Cdn/Profiles/myProfile/afdEndpoints/ep1/routes/route1
+    :example: PrivateClouds_GetVcfLicense
+        az vmware private-cloud get-vcf-license --resource-group group1 --private-cloud-name cloud1
     """
 
     _aaz_info = {
-        "version": "2025-09-01-preview",
+        "version": "2025-09-01",
         "resources": [
-            ["mgmt-plane", "/subscriptions/{}/resourcegroups/{}/providers/microsoft.cdn/edgeactions/{}/addattachment", "2025-09-01-preview"],
+            ["mgmt-plane", "/subscriptions/{}/resourcegroups/{}/providers/microsoft.avs/privateclouds/{}/getvcflicense", "2025-09-01"],
         ]
     }
 
-    AZ_SUPPORT_NO_WAIT = True
-
     def _handler(self, command_args):
         super()._handler(command_args)
-        return self.build_lro_poller(self._execute_operations, self._output)
+        self._execute_operations()
+        return self._output()
 
     _args_schema = None
 
@@ -45,34 +44,23 @@ class AddAttachment(AAZCommand):
         # define Arg Group ""
 
         _args_schema = cls._args_schema
-        _args_schema.edge_action_name = AAZStrArg(
-            options=["--edge-action-name"],
-            help="The name of the Edge Action",
+        _args_schema.private_cloud_name = AAZStrArg(
+            options=["-n", "--private-cloud-name"],
+            help="Name of the private cloud",
             required=True,
             id_part="name",
             fmt=AAZStrArgFormat(
-                pattern="[a-zA-Z0-9]+",
-                max_length=50,
+                pattern="^[-\\w\\._]+$",
             ),
         )
         _args_schema.resource_group = AAZResourceGroupNameArg(
-            required=True,
-        )
-
-        # define Arg Group "Body"
-
-        _args_schema = cls._args_schema
-        _args_schema.attached_resource_id = AAZResourceIdArg(
-            options=["--attached-resource-id"],
-            arg_group="Body",
-            help="The attached resource Id",
             required=True,
         )
         return cls._args_schema
 
     def _execute_operations(self):
         self.pre_operations()
-        yield self.EdgeActionsAddAttachment(ctx=self.ctx)()
+        self.PrivateCloudsGetVcfLicense(ctx=self.ctx)()
         self.post_operations()
 
     @register_callback
@@ -87,37 +75,21 @@ class AddAttachment(AAZCommand):
         result = self.deserialize_output(self.ctx.vars.instance, client_flatten=True)
         return result
 
-    class EdgeActionsAddAttachment(AAZHttpOperation):
+    class PrivateCloudsGetVcfLicense(AAZHttpOperation):
         CLIENT_TYPE = "MgmtClient"
 
         def __call__(self, *args, **kwargs):
             request = self.make_request()
             session = self.client.send_request(request=request, stream=False, **kwargs)
-            if session.http_response.status_code in [202]:
-                return self.client.build_lro_polling(
-                    self.ctx.args.no_wait,
-                    session,
-                    self.on_200,
-                    self.on_error,
-                    lro_options={"final-state-via": "location"},
-                    path_format_arguments=self.url_parameters,
-                )
             if session.http_response.status_code in [200]:
-                return self.client.build_lro_polling(
-                    self.ctx.args.no_wait,
-                    session,
-                    self.on_200,
-                    self.on_error,
-                    lro_options={"final-state-via": "location"},
-                    path_format_arguments=self.url_parameters,
-                )
+                return self.on_200(session)
 
             return self.on_error(session.http_response)
 
         @property
         def url(self):
             return self.client.format_url(
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/addAttachment",
+                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/getVcfLicense",
                 **self.url_parameters
             )
 
@@ -133,7 +105,7 @@ class AddAttachment(AAZCommand):
         def url_parameters(self):
             parameters = {
                 **self.serialize_url_param(
-                    "edgeActionName", self.ctx.args.edge_action_name,
+                    "privateCloudName", self.ctx.args.private_cloud_name,
                     required=True,
                 ),
                 **self.serialize_url_param(
@@ -151,7 +123,7 @@ class AddAttachment(AAZCommand):
         def query_parameters(self):
             parameters = {
                 **self.serialize_query_param(
-                    "api-version", "2025-09-01-preview",
+                    "api-version", "2025-09-01",
                     required=True,
                 ),
             }
@@ -161,24 +133,10 @@ class AddAttachment(AAZCommand):
         def header_parameters(self):
             parameters = {
                 **self.serialize_header_param(
-                    "Content-Type", "application/json",
-                ),
-                **self.serialize_header_param(
                     "Accept", "application/json",
                 ),
             }
             return parameters
-
-        @property
-        def content(self):
-            _content_value, _builder = self.new_content_builder(
-                self.ctx.args,
-                typ=AAZObjectType,
-                typ_kwargs={"flags": {"required": True, "client_flatten": True}}
-            )
-            _builder.set_prop("attachedResourceId", AAZStrType, ".attached_resource_id", typ_kwargs={"flags": {"required": True}})
-
-            return self.serialize_content(_content_value)
 
         def on_200(self, session):
             data = self.deserialize_http_content(session)
@@ -198,16 +156,50 @@ class AddAttachment(AAZCommand):
             cls._schema_on_200 = AAZObjectType()
 
             _schema_on_200 = cls._schema_on_200
-            _schema_on_200.edge_action_id = AAZStrType(
-                serialized_name="edgeActionId",
+            _schema_on_200.kind = AAZStrType(
+                flags={"required": True},
+            )
+            _schema_on_200.provisioning_state = AAZStrType(
+                serialized_name="provisioningState",
+                flags={"read_only": True},
+            )
+
+            disc_vcf5 = cls._schema_on_200.discriminate_by("kind", "vcf5")
+            disc_vcf5.broadcom_contract_number = AAZStrType(
+                serialized_name="broadcomContractNumber",
+            )
+            disc_vcf5.broadcom_site_id = AAZStrType(
+                serialized_name="broadcomSiteId",
+            )
+            disc_vcf5.cores = AAZIntType(
+                flags={"required": True},
+            )
+            disc_vcf5.end_date = AAZStrType(
+                serialized_name="endDate",
+                flags={"required": True},
+            )
+            disc_vcf5.labels = AAZListType()
+            disc_vcf5.license_key = AAZStrType(
+                serialized_name="licenseKey",
+                flags={"secret": True},
+            )
+
+            labels = cls._schema_on_200.discriminate_by("kind", "vcf5").labels
+            labels.Element = AAZObjectType()
+
+            _element = cls._schema_on_200.discriminate_by("kind", "vcf5").labels.Element
+            _element.key = AAZStrType(
+                flags={"required": True},
+            )
+            _element.value = AAZStrType(
                 flags={"required": True},
             )
 
             return cls._schema_on_200
 
 
-class _AddAttachmentHelper:
-    """Helper class for AddAttachment"""
+class _GetVcfLicenseHelper:
+    """Helper class for GetVcfLicense"""
 
 
-__all__ = ["AddAttachment"]
+__all__ = ["GetVcfLicense"]
